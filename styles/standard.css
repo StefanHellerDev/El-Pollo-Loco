@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+  }
+  
+  a, button {
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .d_none {
+    display: none;
+  }
+  

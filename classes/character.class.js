@@ -1,8 +1,8 @@
 class Character extends MovableObject {
   // 610x1200; height durch 1200, mal 610
   height = 320;
-  width = 162;
-  y = 140;
+  width = this.height / 1200 * 610;
+  y = 480 - this.height - 20;
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -26,7 +26,7 @@ class Character extends MovableObject {
         this.x += this.speed;
         this.otherDirection = false;
       }
-      if (this.world.keyboard.KEY_LEFT && this.x > 0) {
+      if (this.world.keyboard.KEY_LEFT && this.x > 100) {
         this.x -= this.speed;
         this.otherDirection = true;
       }

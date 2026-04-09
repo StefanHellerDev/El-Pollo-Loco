@@ -1,8 +1,8 @@
 class Chicken extends MovableObject {
   // 248x243; height durch 243, mal 248
   height = 60;
-  width = 61;
-  y = 370;
+  width = this.height / 243 * 248;
+  y = 480 - this.height - 50;
   IMAGES_WALKING = [
     "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
@@ -20,10 +20,7 @@ class Chicken extends MovableObject {
   animate() {
     this.moveLeft();
     setInterval(() => {
-      let modulo = this.currentImage % this.IMAGES_WALKING.length;
-      let path = this.IMAGES_WALKING[modulo];
-      this.img = this.imageCache[path];
-      this.currentImage++;
+      this.playAnimation(this.IMAGES_WALKING);
     }, 200);
   }
 }

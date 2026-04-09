@@ -23,14 +23,11 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     this.ctx.translate(this.camera_x, 0);
-
     this.addMultipleObjectsToMap(this.level.backgroundObjects);
     this.addMultipleObjectsToMap(this.level.clouds);
     this.addMultipleObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
-
     this.ctx.translate(-this.camera_x, 0);
 
     // draw() wird immer wieder aufgerufen
@@ -53,9 +50,7 @@ class World {
       this.ctx.scale(-1, 1);
       mo.x = mo.x * -1;
     }
-
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-
     if (mo.otherDirection) {
       mo.x = mo.x * -1;
       this.ctx.restore();

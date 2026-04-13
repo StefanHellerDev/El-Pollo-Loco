@@ -10,7 +10,7 @@ class World {
   camera_x = 0;
 
   constructor(canvas, keyboard) {
-    this.ctx = canvas.getContext("2d");
+    this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.draw();
@@ -51,6 +51,13 @@ class World {
       mo.x = mo.x * -1;
     }
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+
+    this.ctx.beginPath();
+    this.ctx.lineWidth = '5';
+    this.ctx.strokeStyle = 'blue';
+    this.ctx.rect(50, 50, 150, 80);
+    this.ctx.stroke();
+
     if (mo.otherDirection) {
       mo.x = mo.x * -1;
       this.ctx.restore();

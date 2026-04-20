@@ -1,17 +1,17 @@
 class Endboss extends MovableObject {
   // 1045x1217; height durch 1217, mal 1045
   height = 500;
-  width = this.height / 1217 * 1045;
+  width = (this.height / 1217) * 1045;
   y = 480 - this.height - 30;
   IMAGES_WALKING = [
-    "img/4_enemie_boss_chicken/2_alert/G5.png",
-    "img/4_enemie_boss_chicken/2_alert/G6.png",
-    "img/4_enemie_boss_chicken/2_alert/G7.png",
-    "img/4_enemie_boss_chicken/2_alert/G8.png",
-    "img/4_enemie_boss_chicken/2_alert/G9.png",
-    "img/4_enemie_boss_chicken/2_alert/G10.png",
-    "img/4_enemie_boss_chicken/2_alert/G11.png",
-    "img/4_enemie_boss_chicken/2_alert/G12.png",
+    'img/4_enemie_boss_chicken/2_alert/G5.png',
+    'img/4_enemie_boss_chicken/2_alert/G6.png',
+    'img/4_enemie_boss_chicken/2_alert/G7.png',
+    'img/4_enemie_boss_chicken/2_alert/G8.png',
+    'img/4_enemie_boss_chicken/2_alert/G9.png',
+    'img/4_enemie_boss_chicken/2_alert/G10.png',
+    'img/4_enemie_boss_chicken/2_alert/G11.png',
+    'img/4_enemie_boss_chicken/2_alert/G12.png',
   ];
   //   world;
   //   speed = 10;

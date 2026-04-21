@@ -3,8 +3,7 @@ class Character extends MovableObject {
   height = 250;
   width = (this.height / 1200) * 610;
   // y = 480 - this.height - 20;
-  y = 480 - this.height - 180;
-
+  y = 480 - this.height - 180; // 50
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
     'img/2_character_pepe/2_walk/W-22.png',
@@ -13,7 +12,6 @@ class Character extends MovableObject {
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-26.png',
   ];
-
   IMAGES_JUMPING = [
     'img/2_character_pepe/3_jump/J-31.png',
     'img/2_character_pepe/3_jump/J-32.png',
@@ -25,9 +23,14 @@ class Character extends MovableObject {
     'img/2_character_pepe/3_jump/J-38.png',
     'img/2_character_pepe/3_jump/J-39.png',
   ];
-
   world;
   speed = 10;
+  offset = {
+    top: 80,
+    left: 0,
+    right: 0,
+    bottom: 80,
+  };
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');

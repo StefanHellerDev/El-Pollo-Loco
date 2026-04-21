@@ -10,6 +10,12 @@ class MovableObject {
   otherDirection = false;
   speedY = 0;
   acceleration = 2.5;
+  offset = {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  };
 
   loadImage(path) {
     this.img = new Image();
@@ -31,13 +37,14 @@ class MovableObject {
   drawFrame(ctx) {
     if (this instanceof Character || this instanceof Chicken) {
       ctx.beginPath();
-      ctx.lineWidth = '5';
+      ctx.lineWidth = '2';
       if (this instanceof Character) {
         ctx.strokeStyle = 'blue';
       } else {
         ctx.strokeStyle = 'red';
       }
-      ctx.rect(this.x, this.y, this.width, this.height);
+      // ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.right, this.height - this.offset.bottom);
       ctx.stroke();
     }
   }
@@ -75,9 +82,19 @@ class MovableObject {
   }
 
   isColliding(mo) {
-    return this.x + this.width > mo.x &&
-    this.y + this.height > mo.y &&
-    this.x < mo.x &&
-    this.y < mo.y + mo.height
+    if (this instanceof Character) {
+      // console.log(this.x + this.width - this.offset.right, ">", mo.x + mo.offset.left);
+      console.log(this.y);
+      
+      console.log(this.y + this.height - this.offset.bottom, ">", mo.y + mo.offset.top);
+      // console.log(this.x + this.offset.left, "<", mo.x + mo.width - mo.offset.right);
+      // console.log(this.y + this.offset.top, "<", mo.y + mo.height - mo.offset.bottom);
+    }
+    return (
+      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+    );
   }
 }

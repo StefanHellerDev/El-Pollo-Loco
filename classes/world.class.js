@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+  statusbar = new StatusBar();
   enemies = level1.enemies;
   clouds = level1.clouds;
   backgroundObjects = level1.backgroundObjects;
@@ -8,6 +9,7 @@ class World {
   keyboard;
   level = level1;
   camera_x = 0;
+  statusbar;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');

@@ -4,8 +4,5 @@ class Keyboard {
   KEY_UP = false;
   KEY_DOWN = false;
   KEY_SPACE = false;
-
-  constructor() {
-    
-  }
+  KEY_D = false;
 }

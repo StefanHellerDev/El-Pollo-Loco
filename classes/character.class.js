@@ -2,7 +2,6 @@ class Character extends MovableObject {
   // 610x1200; height durch 1200, mal 610
   height = 250;
   width = (this.height / 1200) * 610;
-  // y = 480 - this.height - 20;
   y = 480 - this.height - 180; // 50
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
@@ -10,7 +9,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/2_walk/W-23.png',
     'img/2_character_pepe/2_walk/W-24.png',
     'img/2_character_pepe/2_walk/W-25.png',
-    'img/2_character_pepe/2_walk/W-26.png',
+    'img/2_character_pepe/2_walk/W-26.png'
   ];
   IMAGES_JUMPING = [
     'img/2_character_pepe/3_jump/J-31.png',
@@ -21,12 +20,12 @@ class Character extends MovableObject {
     'img/2_character_pepe/3_jump/J-36.png',
     'img/2_character_pepe/3_jump/J-37.png',
     'img/2_character_pepe/3_jump/J-38.png',
-    'img/2_character_pepe/3_jump/J-39.png',
+    'img/2_character_pepe/3_jump/J-39.png'
   ];
   IMAGES_HURT = [
     'img/2_character_pepe/4_hurt/H-41.png',
     'img/2_character_pepe/4_hurt/H-42.png',
-    'img/2_character_pepe/4_hurt/H-43.png',
+    'img/2_character_pepe/4_hurt/H-43.png'
   ];
   IMAGES_DEAD = [
     'img/2_character_pepe/5_dead/D-51.png',
@@ -35,7 +34,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/5_dead/D-54.png',
     'img/2_character_pepe/5_dead/D-55.png',
     'img/2_character_pepe/5_dead/D-56.png',
-    'img/2_character_pepe/5_dead/D-57.png',
+    'img/2_character_pepe/5_dead/D-57.png'
   ];
   world;
   speed = 10;

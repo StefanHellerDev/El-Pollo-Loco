@@ -3,7 +3,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   min-height: 100vh;
   background-image: url('img/horse_bg.jpg');
   background-position: center;
@@ -18,4 +18,21 @@ h1 {
 
 canvas {
   background-color: black;
+  display: block;
+}
+
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 559px) {
+  canvas {
+    height: 100vh;
+  }
+
+  h1 {
+    display: none;
+  }
 }

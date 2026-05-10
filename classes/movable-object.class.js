@@ -49,13 +49,6 @@ class MovableObject extends DrawableObject {
   }
 
   isColliding(mo) {
-    if (this instanceof Character) {
-      // console.log(this.x + this.width - this.offset.right, ">", mo.x + mo.offset.left);
-      // console.log(this.y);
-      // console.log(this.y + this.height - this.offset.bottom, ">", mo.y + mo.offset.top);
-      // console.log(this.x + this.offset.left, "<", mo.x + mo.width - mo.offset.right);
-      // console.log(this.y + this.offset.top, "<", mo.y + mo.height - mo.offset.bottom);
-    }
     return (
       this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
       this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
@@ -66,7 +59,6 @@ class MovableObject extends DrawableObject {
 
   hit() {
     this.energy -= 5;
-    console.log('Collision with character, energy: ', this.energy);
     if (this.energy < 0) {
       this.energy = 0;
     } else {

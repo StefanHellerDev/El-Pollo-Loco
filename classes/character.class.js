@@ -82,7 +82,6 @@ class Character extends MovableObject {
     setInterval(() => {
       this.playAnimation(this.IMAGES_IDLE);
       this.idle_wait++;
-      console.log(this.idle_wait);
       if (this.idle_wait > 25) {
         this.playAnimation(this.IMAGES_LONGIDLE);
       }
@@ -123,7 +122,7 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
         if (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
-        this.idle_wait = 0;
+          this.idle_wait = 0;
           this.playAnimation(this.IMAGES_WALKING);
         }
       }

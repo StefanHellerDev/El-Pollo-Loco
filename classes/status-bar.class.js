@@ -1,10 +1,9 @@
 class StatusBar extends DrawableObject {
-  // 595x158; height durch 158, mal 595  
+  // 595x158; height durch 158, mal 595
   width = 250;
   height = (this.width / 595) * 158;
-  y = 10;
+  y = 0;
   x = 10;
-
   percentage = 100;
 
   IMAGES_STATUSBAR = [

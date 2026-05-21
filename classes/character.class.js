@@ -64,6 +64,7 @@ class Character extends MovableObject {
     right: 50,
     bottom: 65,
   };
+  idle_wait = 0;
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -80,14 +81,21 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       this.playAnimation(this.IMAGES_IDLE);
+      this.idle_wait++;
+      console.log(this.idle_wait);
+      if (this.idle_wait > 25) {
+        this.playAnimation(this.IMAGES_LONGIDLE);
+      }
     }, 1000 / 5);
 
     setInterval(() => {
       if (this.world.keyboard.KEY_RIGHT && this.x < this.world.level.level_end_x) {
+        this.idle_wait = 0;
         this.moveRight();
         this.otherDirection = false;
       }
       if (this.world.keyboard.KEY_LEFT && this.x > 100) {
+        this.idle_wait = 0;
         this.moveLeft();
         this.otherDirection = true;
       }
@@ -110,10 +118,12 @@ class Character extends MovableObject {
 
     setInterval(() => {
       if ((this.world.keyboard.KEY_UP || this.world.keyboard.KEY_SPACE) && !this.isAboveGround()) {
+        this.idle_wait = 0;
         this.jump();
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
         if (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
+        this.idle_wait = 0;
           this.playAnimation(this.IMAGES_WALKING);
         }
       }

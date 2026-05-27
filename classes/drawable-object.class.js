@@ -25,7 +25,7 @@ class DrawableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken) {
+    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
       ctx.beginPath();
       ctx.lineWidth = '2';
       if (this instanceof Character) {

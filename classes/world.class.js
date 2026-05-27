@@ -11,6 +11,7 @@ class World {
   statusBar = new StatusBar();
   bottleBar = new BottleBar();
   throwableObjects = [new ThrowableObject()];
+  bottleCount = 100;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -33,9 +34,11 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.KEY_D) {
+    if (this.keyboard.KEY_D && this.bottleCount > 0) {
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
+      this.bottleCount -= 10;
+      this.bottleBar.setPercentage(this.bottleCount);
     }
   }
 

@@ -58,6 +58,7 @@ class World {
 
     this.addMultipleObjectsToMap(this.level.backgroundObjects);
     this.addMultipleObjectsToMap(this.level.clouds);
+    this.addMultipleObjectsToMap(this.level.bottles);
     this.addMultipleObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
     this.addMultipleObjectsToMap(this.throwableObjects);

@@ -1,10 +1,11 @@
 class StatusBar extends DrawableObject {
+  world;
   // 595x158; height durch 158, mal 595
   width = 250;
   height = (this.width / 595) * 158;
   y = 0;
   x = 10;
-  percentage = 100;
+  percentage;
 
   IMAGES_STATUSBAR = [
     'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',

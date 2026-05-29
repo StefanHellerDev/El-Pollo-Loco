@@ -69,7 +69,7 @@ class Character extends MovableObject {
     bottom: 65,
   };
   idle_wait = 0;
-  energy = 1000; // Zeile löschen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  energy = 1000; // Zeile löschen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');

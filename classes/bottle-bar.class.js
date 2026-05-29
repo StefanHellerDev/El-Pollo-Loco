@@ -4,6 +4,7 @@ class BottleBar extends DrawableObject {
   height = (this.width / 595) * 158;
   y = 55;
   x = 10;
+  world;
   percentage;
 
   IMAGES_BOTTLEBAR = [
@@ -15,10 +16,10 @@ class BottleBar extends DrawableObject {
     'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
   ];
 
-  constructor() {
+  constructor(percentage) {
     super();
     this.loadImages(this.IMAGES_BOTTLEBAR);
-    this.setPercentage(100);
+    this.setPercentage(percentage);
   }
 
   setPercentage(percentage) {

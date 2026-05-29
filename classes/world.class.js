@@ -11,7 +11,7 @@ class World {
   statusBar = new StatusBar();
   bottleBar = new BottleBar();
   throwableObjects = [new ThrowableObject()];
-  bottleCount = 100;
+  bottleCount = 60;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');

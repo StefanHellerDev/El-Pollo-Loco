@@ -4,7 +4,7 @@ class BottleBar extends DrawableObject {
   height = (this.width / 595) * 158;
   y = 55;
   x = 10;
-  world;
+  // world;
   percentage;
 
   IMAGES_BOTTLEBAR = [

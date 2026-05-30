@@ -1,5 +1,5 @@
 class DrawableObject {
-  img;
+  // img;
   imageCache = {};
   currentImage = 0;
   x = 100;
@@ -25,10 +25,10 @@ class DrawableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject) {
+    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Bottle) {
       ctx.beginPath();
       ctx.lineWidth = '2';
-      if (this instanceof Character) {
+      if (this instanceof Character || this instanceof Bottle) {
         ctx.strokeStyle = 'blue';
       } else {
         ctx.strokeStyle = 'red';

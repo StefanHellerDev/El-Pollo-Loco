@@ -48,6 +48,7 @@ class MovableObject extends DrawableObject {
     this.speedY = 25;
   }
 
+  // isColliding(chicken)
   isColliding(mo) {
     return (
       this.x + this.width - this.offset.right > mo.x + mo.offset.left &&

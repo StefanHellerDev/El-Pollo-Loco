@@ -1,5 +1,7 @@
 class World {
   character = new Character();
+  statusBar = new StatusBar();
+  bottleBar = new BottleBar();
   enemies = level1.enemies;
   clouds = level1.clouds;
   backgroundObjects = level1.backgroundObjects;
@@ -8,10 +10,8 @@ class World {
   keyboard;
   level = level1;
   camera_x = 0;
-  statusBar = new StatusBar();
-  bottleBar = new BottleBar();
-  throwableObjects = [new ThrowableObject()];
-  bottleCount = 60;
+  throwableObjects = [];
+  bottleCount = 80;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -19,6 +19,7 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
+    this.bottleBar.setPercentage(this.bottleCount);
     this.run();
   }
 
@@ -30,16 +31,8 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
+      // this.checkBottleCollisions();
     }, 1000 / 5);
-  }
-
-  checkThrowObjects() {
-    if (this.keyboard.KEY_D && this.bottleCount > 0) {
-      let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
-      this.throwableObjects.push(bottle);
-      this.bottleCount -= 10;
-      this.bottleBar.setPercentage(this.bottleCount);
-    }
   }
 
   checkCollisions() {
@@ -49,6 +42,23 @@ class World {
         this.statusBar.setPercentage(this.character.energy);
       }
     });
+  }
+
+  checkBottleCollisions() {
+    this.throwableObjects.forEach((airBottle) => {
+      if (this.level.enemies.isColliding(airBottle)) {
+        console.log('Hit!');
+      }
+    });
+  }
+
+  checkThrowObjects() {
+    if (this.keyboard.KEY_D && this.bottleCount > 0) {
+      let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
+      this.throwableObjects.push(bottle);
+      this.bottleCount -= 10;
+      this.bottleBar.setPercentage(this.bottleCount);
+    }
   }
 
   draw() {

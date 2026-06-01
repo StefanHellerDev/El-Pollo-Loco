@@ -65,6 +65,7 @@ class Character extends MovableObject {
     bottom: 65,
   };
   idle_wait = 0;
+  energy = 200;
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');

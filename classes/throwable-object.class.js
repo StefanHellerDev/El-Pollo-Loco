@@ -3,7 +3,7 @@ class ThrowableObject extends MovableObject {
     'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
     'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
     'img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
-    'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
+    'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
   ];
   x;
   y;
@@ -29,9 +29,20 @@ class ThrowableObject extends MovableObject {
   throw() {
     this.speedY = 30;
     this.applyGravity();
+
     setInterval(() => {
       this.x += 15;
       this.playAnimation(this.IMAGES_BOTTLEROTATION);
     }, 1000 / 20);
+  }
+
+  // isColliding(chicken)
+  isColliding(mo) {
+    return (
+      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+    );
   }
 }

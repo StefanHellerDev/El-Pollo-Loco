@@ -35,9 +35,29 @@ class World {
     }, 1000 / 5);
   }
 
+  checkThrowObjects() {
+    if (this.keyboard.KEY_D && this.bottleCount > 0) {
+      let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
+      this.throwableObjects.push(bottle);
+      this.bottleCount -= 1;
+      this.bottleBar.setBottleBar(this.bottleCount);
+    }
+
+    if (this.throwableObjects.length > 0) {
+      for (let index = 0; index < this.throwableObjects.length; index++) {
+      if (this.throwableObjects[index].y > 300) {
+        console.log(this.throwableObjects[index].y);
+        this.throwableObjects.splice(index, 1);
+      }
+      }
+
+    }
+  }
+
   checkCollisions() {
     this.checkCollisionsWithEnemies();
     this.checkCollisionsWithBottlesOnGround();
+    this.checkCollisionsWithFlyingBottle();
   }
 
   checkCollisionsWithEnemies() {
@@ -53,8 +73,6 @@ class World {
     if (this.bottleCount < 10) {
       this.level.bottles.forEach((bottle, index) => {
         if (this.character.isColliding(bottle)) {
-          console.log('Bottle!', index);
-          console.log(this.bottleCount);
           this.bottleCount += 1;
           this.bottleBar.setBottleBar(this.bottleCount);
           this.level.bottles.splice(index, 1);
@@ -63,20 +81,16 @@ class World {
     }
   }
 
-  checkBottleCollisions() {
-    this.throwableObjects.forEach((airBottle) => {
-      if (this.level.enemies.isColliding(airBottle)) {
-        console.log('Hit!');
+  checkCollisionsWithFlyingBottle() {
+    if (this.throwableObjects.length > 0) {
+      console.log(this.throwableObjects);
+      for (let index = 0; index < this.throwableObjects.length; index++) {
+        this.level.enemies.forEach((enemy) => {
+          if (this.throwableObjects[index].isColliding(enemy)) {
+            console.log('Hit!', enemy);
+          }
+        });
       }
-    });
-  }
-
-  checkThrowObjects() {
-    if (this.keyboard.KEY_D && this.bottleCount > 0) {
-      let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
-      this.throwableObjects.push(bottle);
-      this.bottleCount -= 1;
-      this.bottleBar.setBottleBar(this.bottleCount);
     }
   }
 

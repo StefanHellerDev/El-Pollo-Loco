@@ -4,6 +4,7 @@ class World {
   bottleBar = new BottleBar();
   enemies = level1.enemies;
   clouds = level1.clouds;
+  bottles = level1.bottles;
   backgroundObjects = level1.backgroundObjects;
   canvas;
   ctx;
@@ -11,7 +12,7 @@ class World {
   level = level1;
   camera_x = 0;
   throwableObjects = [];
-  bottleCount = 80;
+  bottleCount = 8;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -19,7 +20,7 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
-    this.bottleBar.setPercentage(this.bottleCount);
+    this.bottleBar.setBottleBar(this.bottleCount);
     this.run();
   }
 
@@ -31,17 +32,35 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
-      // this.checkBottleCollisions();
     }, 1000 / 5);
   }
 
   checkCollisions() {
+    this.checkCollisionsWithEnemies();
+    this.checkCollisionsWithBottlesOnGround();
+  }
+
+  checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
       }
     });
+  }
+
+  checkCollisionsWithBottlesOnGround() {
+    if (this.bottleCount < 10) {
+      this.level.bottles.forEach((bottle, index) => {
+        if (this.character.isColliding(bottle)) {
+          console.log('Bottle!', index);
+          console.log(this.bottleCount);
+          this.bottleCount += 1;
+          this.bottleBar.setBottleBar(this.bottleCount);
+          this.level.bottles.splice(index, 1);
+        }
+      });
+    }
   }
 
   checkBottleCollisions() {
@@ -56,8 +75,8 @@ class World {
     if (this.keyboard.KEY_D && this.bottleCount > 0) {
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
-      this.bottleCount -= 10;
-      this.bottleBar.setPercentage(this.bottleCount);
+      this.bottleCount -= 1;
+      this.bottleBar.setBottleBar(this.bottleCount);
     }
   }
 

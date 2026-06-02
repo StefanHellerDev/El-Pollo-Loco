@@ -13,6 +13,7 @@ class World {
   camera_x = 0;
   throwableObjects = [];
   bottleCount = 8;
+  timeKeyDpressed = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -36,22 +37,27 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.KEY_D && this.bottleCount > 0) {
+    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceLastBottleFlying()) {
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
+      this.timeKeyDpressed = new Date().getTime();
       this.bottleCount -= 1;
       this.bottleBar.setBottleBar(this.bottleCount);
     }
 
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
-      if (this.throwableObjects[index].y > 300) {
-        console.log(this.throwableObjects[index].y);
-        this.throwableObjects.splice(index, 1);
+        if (this.throwableObjects[index].y > 300) {
+          console.log(this.throwableObjects[index].y);
+          this.throwableObjects.splice(index, 1);
+        }
       }
-      }
-
     }
+  }
+
+  timeSinceLastBottleFlying() {
+    let timePassed = new Date().getTime() - this.timeKeyDpressed; // Milliseconds after last KEY_D
+    return timePassed > 400;
   }
 
   checkCollisions() {
@@ -83,9 +89,10 @@ class World {
 
   checkCollisionsWithFlyingBottle() {
     if (this.throwableObjects.length > 0) {
-      console.log(this.throwableObjects);
+      console.log('this.throwableObjects: ', this.throwableObjects);
+
       for (let index = 0; index < this.throwableObjects.length; index++) {
-        this.level.enemies.forEach((enemy) => {
+        this.enemies.forEach((enemy) => {
           if (this.throwableObjects[index].isColliding(enemy)) {
             console.log('Hit!', enemy);
           }

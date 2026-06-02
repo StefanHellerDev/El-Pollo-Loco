@@ -48,7 +48,6 @@ class World {
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
         if (this.throwableObjects[index].y > 300) {
-          console.log(this.throwableObjects[index].y);
           this.throwableObjects.splice(index, 1);
         }
       }
@@ -89,8 +88,6 @@ class World {
 
   checkCollisionsWithFlyingBottle() {
     if (this.throwableObjects.length > 0) {
-      console.log('this.throwableObjects: ', this.throwableObjects);
-
       for (let index = 0; index < this.throwableObjects.length; index++) {
         this.enemies.forEach((enemy) => {
           if (this.throwableObjects[index].isColliding(enemy)) {

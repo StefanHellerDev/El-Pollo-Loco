@@ -14,6 +14,7 @@ class World {
   throwableObjects = [];
   bottleCount = 8;
   timeKeyDpressed = 0;
+  timeSinceLastHit = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -37,7 +38,7 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceLastBottleFlying()) {
+    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceLastBottleFlying(400, this.timeKeyDpressed)) {
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
       this.timeKeyDpressed = new Date().getTime();
@@ -47,16 +48,16 @@ class World {
 
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
-        if (this.throwableObjects[index].y > 300) {
+        if (this.throwableObjects[index].y > 480) {
           this.throwableObjects.splice(index, 1);
         }
       }
     }
   }
 
-  timeSinceLastBottleFlying() {
-    let timePassed = new Date().getTime() - this.timeKeyDpressed; // Milliseconds after last KEY_D
-    return timePassed > 400;
+  timeSinceLastBottleFlying(time, event) {
+    let timePassed = new Date().getTime() - event; // Milliseconds after last KEY_D
+    return timePassed > time;
   }
 
   checkCollisions() {
@@ -89,9 +90,17 @@ class World {
   checkCollisionsWithFlyingBottle() {
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
-        this.enemies.forEach((enemy) => {
+        this.enemies.forEach((enemy, i) => {
           if (this.throwableObjects[index].isColliding(enemy)) {
-            console.log('Hit!', enemy);
+            console.log('Hit!', this.enemies[i]);
+            console.log(this.enemies[i].energy);
+            this.timeSinceLastHit = new Date().getTime();
+            if (this.timeSinceLastBottleFlying(200, this.timeSinceLastHit)) {
+              this.enemies[i].energy -= 5;
+              if (this.enemies[i].energy <= 0) {
+                this.enemies.splice(i, 1);
+              }
+            }
           }
         });
       }

@@ -14,7 +14,6 @@ class World {
   throwableObjects = [];
   bottleCount = 8;
   timeKeyDpressed = 0;
-  timeSinceLastHit = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -56,7 +55,7 @@ class World {
   }
 
   timeSinceLastBottleFlying(time, event) {
-    let timePassed = new Date().getTime() - event; // Milliseconds after last KEY_D
+    let timePassed = new Date().getTime() - event;
     return timePassed > time;
   }
 
@@ -92,15 +91,11 @@ class World {
       for (let index = 0; index < this.throwableObjects.length; index++) {
         this.enemies.forEach((enemy, i) => {
           if (this.throwableObjects[index].isColliding(enemy)) {
-            console.log('Hit!', this.enemies[i]);
-            console.log(this.enemies[i].energy);
-            this.timeSinceLastHit = new Date().getTime();
-            if (this.timeSinceLastBottleFlying(200, this.timeSinceLastHit)) {
-              this.enemies[i].energy -= 5;
-              if (this.enemies[i].energy <= 0) {
-                this.enemies.splice(i, 1);
-              }
+            this.enemies[i].energy -= 5;
+            if (this.enemies[i].energy <= 0) {
+              this.enemies.splice(i, 1);
             }
+            this.throwableObjects.splice(index, 1);
           }
         });
       }

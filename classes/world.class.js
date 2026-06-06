@@ -93,7 +93,8 @@ class World {
           if (this.throwableObjects[index].isColliding(enemy)) {
             this.enemies[i].energy -= 5;
             if (this.enemies[i].energy <= 0) {
-              this.enemies.splice(i, 1);
+              // this.enemies.splice(i, 1);
+              // this.enemies.splice(i, 1);
             }
             this.throwableObjects.splice(index, 1);
           }

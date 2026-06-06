@@ -12,6 +12,7 @@ class DrawableObject {
     right: 0,
     bottom: 0,
   };
+  intervallIDs = [];
 
   loadImage(path) {
     this.img = new Image();
@@ -43,5 +44,10 @@ class DrawableObject {
       ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.right, this.height - this.offset.bottom);
       ctx.stroke();
     }
+  }
+
+  setStoppableInterval(fn, time) {
+    let id = setInterval(fn, time);
+    this.intervallIDs.push(id);
   }
 }

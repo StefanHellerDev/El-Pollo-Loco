@@ -2,6 +2,7 @@ class World {
   character = new Character();
   statusBar = new StatusBar();
   bottleBar = new BottleBar();
+  endboss = new Endboss();
   enemies = level1.enemies;
   clouds = level1.clouds;
   bottles = level1.bottles;
@@ -27,6 +28,7 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.endboss.world = this;
   }
 
   run() {
@@ -61,6 +63,7 @@ class World {
 
   checkCollisions() {
     this.checkCollisionsWithEnemies();
+    this.checkCollisionsWithEndboss();
     this.checkCollisionsWithBottlesOnGround();
     this.checkCollisionsWithFlyingBottle();
   }
@@ -72,6 +75,13 @@ class World {
         this.statusBar.setPercentage(this.character.energy);
       }
     });
+  }
+
+  checkCollisionsWithEndboss() {
+    if (this.character.isColliding(this.endboss)) {
+      this.character.hit();
+      this.statusBar.setPercentage(this.character.energy);
+    }
   }
 
   checkCollisionsWithBottlesOnGround() {
@@ -112,6 +122,7 @@ class World {
     this.addMultipleObjectsToMap(this.level.clouds);
     this.addMultipleObjectsToMap(this.level.bottles);
     this.addMultipleObjectsToMap(this.level.enemies);
+    this.addToMap(this.endboss);
     this.addToMap(this.character);
     this.addMultipleObjectsToMap(this.throwableObjects);
 

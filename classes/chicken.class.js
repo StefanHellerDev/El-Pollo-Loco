@@ -34,13 +34,9 @@ class Chicken extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-        console.log(this.intervallIDs);
-        
       } else {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 1000 / 5);
-
-    setInterval(() => {}, 1000 / 20);
   }
 }

@@ -5,9 +5,14 @@ class MovableObject extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   lastHit = 0;
+  dead = 0;
 
   moveLeft() {
-    this.x -= this.speed;
+    if (this.dead == 1) {
+      this.speed = 0;
+    } else {
+      this.x -= this.speed;
+    }
   }
 
   moveRight() {
@@ -24,6 +29,7 @@ class MovableObject extends DrawableObject {
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
+        this.lastY = this.y;
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       }

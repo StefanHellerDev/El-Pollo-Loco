@@ -3,6 +3,16 @@ class Character extends MovableObject {
   height = 250;
   width = (this.height / 1200) * 610;
   y = 480 - this.height - 180; // 50
+  world;
+  speed = 10;
+  offset = {
+    top: 80,
+    left: 25,
+    right: 50,
+    bottom: 65,
+  };
+  idle_wait = 0;
+
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
     'img/2_character_pepe/2_walk/W-22.png',
@@ -56,15 +66,6 @@ class Character extends MovableObject {
     'img/2_character_pepe/1_idle/long_idle/I-19.png',
     'img/2_character_pepe/1_idle/long_idle/I-20.png',
   ];
-  world;
-  speed = 10;
-  offset = {
-    top: 80,
-    left: 25,
-    right: 50,
-    bottom: 65,
-  };
-  idle_wait = 0;
   energy = 1000; // Zeile löschen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   constructor() {

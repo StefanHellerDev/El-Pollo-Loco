@@ -70,7 +70,9 @@ class World {
 
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
+      if (this.jumpOnChicken(enemy)) {
+        console.log('Sprung');
+      } else if (this.character.isColliding(enemy)) {
         if (enemy.dead != 1) {
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
@@ -78,6 +80,10 @@ class World {
       }
     });
   }
+
+  jumpOnChicken(enemy) {
+        return this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.lastY < this.character.y;
+    }
 
   checkCollisionsWithEndboss() {
     if (this.character.isColliding(this.endboss)) {
@@ -97,23 +103,6 @@ class World {
       });
     }
   }
-
-  // checkCollisionsWithFlyingBottle() {
-  //   if (this.throwableObjects.length > 0) {
-  //     for (let index = 0; index < this.throwableObjects.length; index++) {
-  //       this.enemies.forEach((enemy, i) => {
-  //         if (this.throwableObjects[index].isColliding(enemy)) {
-  //           this.enemies[i].energy -= 5;
-  //           if (this.enemies[i].energy <= 0) {
-  //             // this.enemies.splice(i, 1);
-  //             // this.enemies.splice(i, 1);
-  //           }
-  //           this.throwableObjects.splice(index, 1);
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
 
   checkCollisionsWithFlyingBottle() {
     if (this.throwableObjects.length > 0) {

@@ -34,12 +34,12 @@ class World {
   run() {
     setInterval(() => {
       this.checkCollisions();
-      this.checkThrowObjects();
+      this.checkThrownObjects();
     }, 1000 / 5);
   }
 
-  checkThrowObjects() {
-    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceLastBottleFlying(400, this.timeKeyDpressed)) {
+  checkThrownObjects() {
+    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
       this.timeKeyDpressed = new Date().getTime();
@@ -56,7 +56,7 @@ class World {
     }
   }
 
-  timeSinceLastBottleFlying(time, event) {
+  timeSinceObjectThrown(time, event) {
     let timePassed = new Date().getTime() - event;
     return timePassed > time;
   }
@@ -70,8 +70,8 @@ class World {
 
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
-      if (this.jumpOnChicken(enemy)) {
-        console.log('Sprung');
+      if (this.jumpedOnChicken(enemy)) {
+        console.log('Sprung!');
       } else if (this.character.isColliding(enemy)) {
         if (enemy.dead != 1) {
           this.character.hit();
@@ -81,9 +81,9 @@ class World {
     });
   }
 
-  jumpOnChicken(enemy) {
-        return this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.lastY < this.character.y;
-    }
+  jumpedOnChicken(enemy) {    
+    return (this.character.isColliding(enemy) && this.character.isAboveGround() && (this.character.lastY < this.character.y));
+  }
 
   checkCollisionsWithEndboss() {
     if (this.character.isColliding(this.endboss)) {

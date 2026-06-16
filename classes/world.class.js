@@ -47,7 +47,10 @@ class World {
       this.bottleCount -= 1;
       this.bottleBar.setBottleBar(this.bottleCount);
     }
+    this.deleteBottleOutOfWorld();
+  }
 
+  deleteBottleOutOfWorld() {
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
         if (this.throwableObjects[index].y > 480) {
@@ -72,7 +75,7 @@ class World {
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
       if (this.jumpedOnChicken(enemy)) {
-        console.log('Sprung!');
+        console.log('Auf Enemy gesprungen!');
         this.character.speedY = 26;
         enemy.hit();
       } else if (this.character.isColliding(enemy)) {

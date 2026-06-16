@@ -66,7 +66,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/1_idle/long_idle/I-19.png',
     'img/2_character_pepe/1_idle/long_idle/I-20.png',
   ];
-  energy = 1000; // Zeile löschen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  energy = 1000; // Zeile löschen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');

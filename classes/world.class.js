@@ -35,7 +35,7 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrownObjects();
-    }, 1000 / 5);
+    }, 1000 / 60);
   }
 
   checkThrownObjects() {
@@ -74,21 +74,48 @@ class World {
 
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
+      if (enemy.isDead()) return;
+
       if (this.jumpedOnChicken(enemy)) {
         console.log('Auf Enemy gesprungen!');
         this.character.speedY = 26;
         enemy.hit();
-      } else if (this.character.isColliding(enemy)) {
-        if (enemy.dead != 1) {
-          this.character.hit();
-          this.statusBar.setPercentage(this.character.energy);
-        }
+        enemy.dead = 1;
+        return;
+      }
+
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
       }
     });
   }
 
   jumpedOnChicken(enemy) {
-    return this.character.isColliding(enemy) && this.character.speedY < 0 && this.character.isAboveGround();
+    if (enemy.isDead()) return false;
+    if (!this.character.isColliding(enemy)) return false;
+    if (this.character.speedY >= 0) return false;
+
+    const characterBox = this.getHitbox(this.character);
+    const enemyBox = this.getHitbox(enemy);
+    const previousBottom = this.getPreviousBottom(this.character);
+
+    const tolerance = 10;
+
+    return previousBottom <= enemyBox.top + tolerance && characterBox.bottom >= enemyBox.top - tolerance;
+  }
+
+  getHitbox(obj) {
+    return {
+      top: obj.y + obj.offset.top,
+      bottom: obj.y + obj.height - obj.offset.bottom,
+      left: obj.x + obj.offset.left,
+      right: obj.x + obj.width - obj.offset.right,
+    };
+  }
+
+  getPreviousBottom(obj) {
+    return obj.lastY + obj.height - obj.offset.bottom;
   }
 
   checkCollisionsWithEndboss() {
@@ -143,9 +170,12 @@ class World {
     this.addToMap(this.bottleBar);
 
     // draw() wird immer wieder aufgerufen
-    let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
+    // let self = this;
+    // requestAnimationFrame(function () {
+    //   self.draw();
+    // });
+    requestAnimationFrame(() => {
+      this.draw();
     });
   }
 

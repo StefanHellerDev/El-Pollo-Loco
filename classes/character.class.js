@@ -6,6 +6,13 @@ class Character extends MovableObject {
   world;
   speed = 10;
   idleWait = 0;
+  energy = 1000;
+  offset = {
+    top: 70,
+    left: 10,
+    right: 10,
+    bottom: 0,
+  };
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',

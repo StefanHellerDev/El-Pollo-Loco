@@ -1,6 +1,6 @@
 class World {
   character = new Character();
-  statusBar = new StatusBar();
+  statusBar = new StatusBar(this.character.energy);
   bottleBar = new BottleBar();
   endboss = new Endboss();
   enemies = level1.enemies;
@@ -86,6 +86,8 @@ class World {
 
       if (this.character.isColliding(enemy)) {
         this.character.hit();
+        console.log(this.character.energy);
+        
         this.statusBar.setPercentage(this.character.energy);
       }
     });
@@ -95,14 +97,13 @@ class World {
     if (enemy.isDead()) return false;
     if (!this.character.isColliding(enemy)) return false;
     if (this.character.speedY >= 0) return false;
-
-    const characterBox = this.getHitbox(this.character);
-    const enemyBox = this.getHitbox(enemy);
-    const previousBottom = this.getPreviousBottom(this.character);
-
-    const tolerance = 10;
-
-    return previousBottom <= enemyBox.top + tolerance && characterBox.bottom >= enemyBox.top - tolerance;
+    const characterBottom = this.character.y + this.character.height - this.character.offset.bottom;
+    const characterPreviousBottom = this.character.lastY + this.character.height - this.character.offset.bottom;
+    const enemyTop = enemy.y + enemy.offset.top;
+    const maxLandingDepth = 20;
+    const cameFromAbove = characterPreviousBottom <= enemyTop;
+    const landedOnTop = characterBottom <= enemyTop + maxLandingDepth;
+    return cameFromAbove && landedOnTop;
   }
 
   getHitbox(obj) {

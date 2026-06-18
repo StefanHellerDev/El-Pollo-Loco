@@ -2,6 +2,7 @@ class World {
   character = new Character();
   statusBar = new StatusBar(this.character.energy);
   bottleBar = new BottleBar();
+  coinBar = new CoinBar();
   endboss = new Endboss();
   enemies = level1.enemies;
   clouds = level1.clouds;
@@ -14,6 +15,7 @@ class World {
   camera_x = 0;
   throwableObjects = [];
   bottleCount = 8;
+  coinCount = 0;
   timeKeyDpressed = 1781619044044;
 
   constructor(canvas, keyboard) {
@@ -23,6 +25,7 @@ class World {
     this.draw();
     this.setWorld();
     this.bottleBar.setBottleBar(this.bottleCount);
+    this.coinBar.setCoinBar(this.coinCount);
     this.run();
   }
 
@@ -87,7 +90,7 @@ class World {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         console.log(this.character.energy);
-        
+
         this.statusBar.setPercentage(this.character.energy);
       }
     });
@@ -169,6 +172,7 @@ class World {
 
     this.addToMap(this.statusBar);
     this.addToMap(this.bottleBar);
+    this.addToMap(this.coinBar);
 
     // draw() wird immer wieder aufgerufen
     // let self = this;

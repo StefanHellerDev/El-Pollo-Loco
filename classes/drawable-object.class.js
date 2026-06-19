@@ -38,11 +38,12 @@ class DrawableObject {
       this instanceof ChickenSmall ||
       this instanceof Endboss ||
       this instanceof ThrowableObject ||
-      this instanceof Bottle
+      this instanceof Bottle ||
+      this instanceof Coin
     ) {
       ctx.beginPath();
       ctx.lineWidth = '2';
-      if (this instanceof Character || this instanceof Bottle) {
+      if (this instanceof Character || this instanceof Bottle || this instanceof Coin) {
         ctx.strokeStyle = 'blue';
       } else {
         ctx.strokeStyle = 'red';

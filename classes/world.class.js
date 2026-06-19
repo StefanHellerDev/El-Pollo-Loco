@@ -73,21 +73,19 @@ class World {
     this.checkCollisionsWithEnemies();
     this.checkCollisionsWithEndboss();
     this.checkCollisionsWithBottlesOnGround();
+    this.checkCollisionsWithCoins();
     this.checkCollisionsWithFlyingBottle();
   }
 
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
       if (enemy.isDead()) return;
-
       if (this.jumpedOnChicken(enemy)) {
-        console.log('Auf Enemy gesprungen!');
         this.character.speedY = 26;
         enemy.hit();
         enemy.dead = 1;
         return;
       }
-
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         console.log(this.character.energy);
@@ -137,6 +135,18 @@ class World {
           this.bottleCount += 1;
           this.bottleBar.setBottleBar(this.bottleCount);
           this.level.bottles.splice(index, 1);
+        }
+      });
+    }
+  }
+
+  checkCollisionsWithCoins() {
+    if (this.coinCount < 10) {
+      this.level.coins.forEach((coin, index) => {
+        if (this.character.isColliding(coin)) {
+          this.coinCount += 1;
+          this.coinBar.setCoinBar(this.coinCount);
+          this.level.coins.splice(index, 1);
         }
       });
     }

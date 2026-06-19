@@ -4,6 +4,12 @@ class Coin extends MovableObject {
   width = (this.height / 301) * 300;
   // y = 480 - this.height - 50;
   IMAGES_COINS = ['img/8_coin/coin_1.png', 'img/8_coin/coin_2.png'];
+  offset = {
+    top: 35,
+    left: 35,
+    right: 35,
+    bottom: 35,
+  };
 
   constructor(x, y) {
     super();

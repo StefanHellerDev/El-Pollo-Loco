@@ -7,10 +7,10 @@ class Character extends MovableObject {
   speed = 10;
   idleWait = 0;
   offset = {
-    top: 70,
+    top: 90,
     left: 10,
     right: 10,
-    bottom: 0,
+    bottom: 5,
   };
   energy = 10000;
 
@@ -94,7 +94,7 @@ class Character extends MovableObject {
       if (this.world.keyboard.KEY_RIGHT && this.x < this.world.level.level_end_x) {
         this.idleWait = 0;
         this.moveRight();
-        console.log('Character x:', this.x);
+        // console.log('Character x:', this.x);
         this.otherDirection = false;
       }
       if (this.world.keyboard.KEY_LEFT && this.x > 100) {

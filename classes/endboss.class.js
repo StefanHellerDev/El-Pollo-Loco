@@ -4,7 +4,9 @@ class Endboss extends MovableObject {
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;
   energy = 25;
-  speed = 0;
+  speed = 0.05;
+  lastSpeed;
+  displayStatusbarEndboss = false;
   IMAGES_WALKING = [
     'img/4_enemie_boss_chicken/1_walk/G1.png',
     'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -43,6 +45,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.x = 3700;
     // this.speed = 0.15 + Math.random() * 0.25;
+    this.speed = 0.05;
     this.animate();
   }
 
@@ -56,12 +59,36 @@ class Endboss extends MovableObject {
         this.dead = 1;
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
-          this.y = 480 - this.height / 2;
+          this.y = 480 - this.height / 2 - 50;
           this.loadImage(this.IMAGES_DEAD[1]);
         }, 1000);
+      } else if (this.world.endboss.isHurt()) {
+        console.log('Endboss is attacked');
+        this.endbossIsAttacking();
+      } else if (this.characterIsCloseToEndboss()) {
+        this.playAnimation(this.IMAGES_ALERT);
       } else {
         this.playAnimation(this.IMAGES_WALKING);
       }
+    }, 1000 / 4);
+  }
+
+  characterIsCloseToEndboss() {
+    if (this.world.endboss.x - this.world.character.x < 400) {
+      this.displayStatusbarEndboss = true;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  endbossIsAttacking() {
+    this.lastSpeed = this.speed;
+    this.speed = 6;
+    this.playAnimation(this.IMAGES_ATTACK);
+    setTimeout(() => {
+      this.speed = this.lastSpeed;
+      this.playAnimation(this.IMAGES_ATTACK);
     }, 1000 / 4);
   }
 }

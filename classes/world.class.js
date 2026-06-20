@@ -4,6 +4,7 @@ class World {
   bottleBar = new BottleBar();
   coinBar = new CoinBar();
   endboss = new Endboss();
+  statusBarEndboss = new StatusBarEndboss(this.endboss.energy);
   enemies = level1.enemies;
   clouds = level1.clouds;
   bottles = level1.bottles;
@@ -74,7 +75,7 @@ class World {
     this.checkCollisionsWithEndboss();
     this.checkCollisionsWithBottlesOnGround();
     this.checkCollisionsWithCoins();
-    this.checkCollisionsWithFlyingBottle();
+    this.checkCollisionEndbossWithFlyingBottle();
   }
 
   checkCollisionsWithEnemies() {
@@ -88,8 +89,6 @@ class World {
       }
       if (this.character.isColliding(enemy)) {
         this.character.hit();
-        console.log(this.character.energy);
-
         this.statusBar.setPercentage(this.character.energy);
       }
     });
@@ -152,15 +151,16 @@ class World {
     }
   }
 
-  checkCollisionsWithFlyingBottle() {
+  checkCollisionEndbossWithFlyingBottle() {
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
         if (this.throwableObjects[index].isColliding(this.endboss)) {
-          this.endboss.hit();
-          if (this.endboss.energy <= 0) {
-            console.log('Endboss dead!');
-          }
           this.throwableObjects.splice(index, 1);
+          this.endboss.hit();
+          this.statusBarEndboss.setEndbossBar(this.endboss.energy);
+          if (this.endboss.energy <= 0) {
+            console.log('Endboss dead! - You won!');
+          }
         }
       }
     }
@@ -185,6 +185,9 @@ class World {
     this.addToMap(this.statusBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
+    if (this.endboss.displayStatusbarEndboss) {
+      this.addToMap(this.statusBarEndboss);
+    }
 
     // draw() wird immer wieder aufgerufen
     // let self = this;

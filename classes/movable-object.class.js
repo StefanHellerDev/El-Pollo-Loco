@@ -27,17 +27,17 @@ class MovableObject extends DrawableObject {
   }
 
   applyGravity() {
-  setInterval(() => {
-    if (this.isAboveGround() || this.speedY > 0) {
-      this.lastY = this.y;
-      this.y -= this.speedY;
-      this.speedY -= this.acceleration;
-    } else {
-      this.speedY = 0;
-      this.lastY = this.y;
-    }
-  }, 1000 / 25);
-}
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0) {
+        this.lastY = this.y;
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      } else {
+        this.speedY = 0;
+        this.lastY = this.y;
+      }
+    }, 1000 / 25);
+  }
 
   isAboveGround() {
     if (this instanceof ThrowableObject) {
@@ -76,6 +76,10 @@ class MovableObject extends DrawableObject {
 
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit; // Milliseconds after hit
-    return timePassed < 1000;
+    if (this instanceof Endboss) {
+      return timePassed < 1000 / 4;
+    } else {
+      return timePassed < 1000;
+    }
   }
 }

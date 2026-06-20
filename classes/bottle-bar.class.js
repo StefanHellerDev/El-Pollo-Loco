@@ -2,7 +2,7 @@ class BottleBar extends DrawableObject {
   // 595x158; height durch 158, mal 595
   width = 250;
   height = (this.width / 595) * 158;
-  y = 55;
+  y = 55 - 15;
   x = 10;
   bottleCount;
 

@@ -2,7 +2,7 @@ class CoinBar extends DrawableObject {
   // 595x158; height durch 158, mal 595
   width = 250;
   height = (this.width / 595) * 158;
-  y = 105;
+  y = 105 - 15;
   x = 10;
   coinCount;
 

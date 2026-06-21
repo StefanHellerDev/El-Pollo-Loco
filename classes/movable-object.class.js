@@ -50,6 +50,7 @@ class MovableObject extends DrawableObject {
 
   jump() {
     this.speedY = 26;
+    this.world?.sounds?.play('jump');
   }
 
   isColliding(mo) {
@@ -65,7 +66,7 @@ class MovableObject extends DrawableObject {
     this.energy -= 5;
     if (this.energy < 0) {
       this.energy = 0;
-    } else {
+    } else {      
       this.lastHit = new Date().getTime();
     }
   }

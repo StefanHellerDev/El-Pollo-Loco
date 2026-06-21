@@ -16,14 +16,16 @@ class World {
   level = level1;
   camera_x = 0;
   throwableObjects = [];
-  bottleCount = 8;
+  bottleCount = 5;
   coinCount = 0;
   timeKeyDpressed = 1781619044044;
 
-  constructor(canvas, keyboard) {
+  constructor(canvas, keyboard, sounds) {
     this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.sounds = sounds;
+
     this.draw();
     this.setWorld();
     this.bottleBar.setBottleBar(this.bottleCount);
@@ -46,8 +48,12 @@ class World {
   checkThrownObjects() {
     if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
       this.character.idleWait = 0;
+
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
+      
+          this.sounds.play("bottleThrow");
+
       this.timeKeyDpressed = new Date().getTime();
       this.bottleCount -= 1;
       this.bottleBar.setBottleBar(this.bottleCount);
@@ -85,9 +91,11 @@ class World {
         this.character.speedY = 26;
         enemy.hit();
         enemy.dead = 1;
+        this.sounds.play('chickenDead');
         return;
       }
       if (this.character.isColliding(enemy)) {
+        this.world?.sounds?.play('hurt');
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
       }
@@ -211,7 +219,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    // mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

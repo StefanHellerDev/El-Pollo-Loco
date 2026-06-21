@@ -1,10 +1,11 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let sounds = new Sounds();
 
 function init() {
   canvas = document.getElementById('canvas');
-  world = new World(canvas, keyboard);
+  world = new World(canvas, keyboard, sounds);
 }
 
 window.addEventListener('keydown', (event) => {

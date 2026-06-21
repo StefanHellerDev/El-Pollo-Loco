@@ -13,6 +13,7 @@ class Character extends MovableObject {
     bottom: 5,
   };
   energy = 10000;
+  isWalking;
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
@@ -96,12 +97,22 @@ class Character extends MovableObject {
         this.moveRight();
         // console.log('Character x:', this.x);
         this.otherDirection = false;
+        this.isWalking = true;
       }
+
       if (this.world.keyboard.KEY_LEFT && this.x > 100) {
         this.idleWait = 0;
         this.moveLeft();
         this.otherDirection = true;
+        this.isWalking = true;
       }
+
+      if (this.isWalking && !this.isAboveGround()) {
+        this.world.sounds.startLoop('walk');
+      } else {
+        this.world.sounds.stop('walk');
+      }
+
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 

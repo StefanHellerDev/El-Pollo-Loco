@@ -97,14 +97,14 @@ class Character extends MovableObject {
         this.moveRight();
         // console.log('Character x:', this.x);
         this.otherDirection = false;
-        this.isWalking = true;
+        // this.isWalking = true;
       }
 
       if (this.world.keyboard.KEY_LEFT && this.x > 100) {
         this.idleWait = 0;
         this.moveLeft();
         this.otherDirection = true;
-        this.isWalking = true;
+        // this.isWalking = true;
       }
 
       if (this.isWalking && !this.isAboveGround()) {

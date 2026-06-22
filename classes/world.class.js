@@ -35,7 +35,7 @@ class World {
 
   setWorld() {
     this.character.world = this;
-    this.endboss.world = this;
+    this.endboss.world = this;    
   }
 
   run() {
@@ -51,8 +51,8 @@ class World {
 
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
-      
-          this.sounds.play("bottleThrow");
+
+      // this.sounds.play('bottleThrow');
 
       this.timeKeyDpressed = new Date().getTime();
       this.bottleCount -= 1;
@@ -95,7 +95,6 @@ class World {
         return;
       }
       if (this.character.isColliding(enemy)) {
-        this.world?.sounds?.play('hurt');
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
       }
@@ -219,7 +218,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    // mo.drawFrame(this.ctx);
+    mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

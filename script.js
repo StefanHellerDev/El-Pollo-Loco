@@ -6,6 +6,13 @@ let sounds = new Sounds();
 function init() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
+  // sounds.startLoop('theme');
+}
+
+function startGame() {
+  canvas = document.getElementById('canvas');
+  world = new World(canvas, keyboard, sounds);
+  sounds.startLoop('theme');
 }
 
 window.addEventListener('keydown', (event) => {
@@ -17,12 +24,14 @@ window.addEventListener('keydown', (event) => {
   }
   if (event.key === 'ArrowLeft') {
     keyboard.KEY_LEFT = true;
+    world.character.isWalking = true;
   }
   if (event.key === 'ArrowUp') {
     keyboard.KEY_UP = true;
   }
   if (event.key === 'ArrowRight') {
     keyboard.KEY_RIGHT = true;
+    world.character.isWalking = true;
   }
   if (event.key === 'ArrowDown') {
     keyboard.KEY_DOWN = true;
@@ -38,12 +47,14 @@ window.addEventListener('keyup', (event) => {
   }
   if (event.key === 'ArrowLeft') {
     keyboard.KEY_LEFT = false;
+    world.character.isWalking = false;
   }
   if (event.key === 'ArrowUp') {
     keyboard.KEY_UP = false;
   }
   if (event.key === 'ArrowRight') {
     keyboard.KEY_RIGHT = false;
+    world.character.isWalking = false;
   }
   if (event.key === 'ArrowDown') {
     keyboard.KEY_DOWN = false;

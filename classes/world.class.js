@@ -35,7 +35,7 @@ class World {
 
   setWorld() {
     this.character.world = this;
-    this.endboss.world = this;    
+    this.endboss.world = this;
   }
 
   run() {
@@ -49,6 +49,7 @@ class World {
     if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
       this.character.idleWait = 0;
 
+      this.sounds.play('bottleThrow');
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
       this.throwableObjects.push(bottle);
 

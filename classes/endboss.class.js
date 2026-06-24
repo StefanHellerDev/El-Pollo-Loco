@@ -57,6 +57,7 @@ class Endboss extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.dead = 1;
+        // this.world.sounds.play('endbossDead');
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
           this.y = 480 - this.height / 2 - 50;

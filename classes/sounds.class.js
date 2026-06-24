@@ -3,10 +3,16 @@ class Sounds {
 
   sounds = {
     walk: new Audio('sounds/run.mp3'),
+
     jump: new Audio('sounds/jump.mp3'),
     hurt: new Audio('sounds/mixkit-ow-exclamation-of-pain-2204.wav'),
-    chickenDead: new Audio('sounds/chicken_dead.mp3'),
-    bottleThrow: new Audio('sounds/bottle_throw.mp3'),
+    bottleThrow: new Audio('sounds/mixkit-quick-rope-throw-730.mp3'),
+
+    chickenDead: new Audio('sounds/mixkit-creature-cry-of-hurt-2208.wav'),
+
+    endbossHurt: new Audio('sounds/mixkit-aquatic-creature-scream-2203.wav'),
+    endbossDead: new Audio('sounds/mixkit-arcade-space-shooter-dead-notification-272.wav'),
+    
     theme: new Audio('sounds/El_pollo_Loco_theme.mp3'),
   };
 
@@ -14,13 +20,18 @@ class Sounds {
     this.sounds.walk.loop = true;
     this.sounds.walk.volume = 0.4;
 
-    this.sounds.theme.loop = true;
-    this.sounds.theme.volume = 0.3;
-
     this.sounds.jump.volume = 0.5;
-    this.sounds.hurt.volume = 1;
-    this.sounds.chickenDead.volume = 0.5;
+    this.sounds.hurt.volume = 0.6;
     this.sounds.bottleThrow.volume = 0.5;
+
+    this.sounds.chickenDead.volume = 0.2;
+
+    this.sounds.endbossHurt.volume = 0.5;
+    this.sounds.endbossDead.volume = 0.9;
+    
+
+    this.sounds.theme.loop = true;
+    this.sounds.theme.volume = 0.2;
   }
 
   play(name) {

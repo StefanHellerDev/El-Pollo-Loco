@@ -2,11 +2,12 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let sounds = new Sounds();
+let isGameMuted = localStorage.getItem('isGameMuted') === 'true';
 
 function init() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
-  // sounds.startLoop('theme');
+  sounds.startLoop('theme');
 }
 
 function startGame() {
@@ -60,3 +61,22 @@ window.addEventListener('keyup', (event) => {
     keyboard.KEY_DOWN = false;
   }
 });
+
+function toggleMute() {
+  isGameMuted = !isGameMuted;
+  localStorage.setItem('isGameMuted', isGameMuted);
+  if (world && world.sounds) {
+    world.sounds.muteAll(isGameMuted);
+  }
+  updateMuteButton();
+  document.getElementById('sound_btn').blur();
+}
+
+function updateMuteButton() {
+  let btn = document.getElementById('sound_btn');
+  if (isGameMuted) {
+    btn.style.opacity = '0.4';
+  } else {
+    btn.style.opacity = '1';
+  }
+}

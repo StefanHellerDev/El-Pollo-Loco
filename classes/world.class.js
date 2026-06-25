@@ -50,10 +50,13 @@ class World {
       this.character.idleWait = 0;
 
       this.sounds.play('bottleThrow');
-      let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100);
-      this.throwableObjects.push(bottle);
-
-      // this.sounds.play('bottleThrow');
+      if (!this.character.otherDirection) {
+        let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100, this.character.otherDirection);
+        this.throwableObjects.push(bottle);
+      } else {
+        let bottle = new ThrowableObject(this.character.x - 40, this.character.y + 100, this.character.otherDirection);
+        this.throwableObjects.push(bottle);
+      }
 
       this.timeKeyDpressed = new Date().getTime();
       this.bottleCount -= 1;
@@ -139,6 +142,7 @@ class World {
     if (this.bottleCount < 10) {
       this.level.bottles.forEach((bottle, index) => {
         if (this.character.isColliding(bottle)) {
+          this.sounds.play('getBottle');
           this.bottleCount += 1;
           this.bottleBar.setBottleBar(this.bottleCount);
           this.level.bottles.splice(index, 1);
@@ -151,6 +155,7 @@ class World {
     if (this.coinCount < 10) {
       this.level.coins.forEach((coin, index) => {
         if (this.character.isColliding(coin)) {
+          this.sounds.play('getCoin');
           this.coinCount += 1;
           this.coinBar.setCoinBar(this.coinCount);
           this.level.coins.splice(index, 1);

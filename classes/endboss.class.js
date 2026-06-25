@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
   height = 500;
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;
-  energy = 25;
+  energy = 30;
   speed = 0.05;
   lastSpeed;
   displayStatusbarEndboss = false;
@@ -35,6 +35,12 @@ class Endboss extends MovableObject {
   ];
   IMAGES_HURT = ['img/4_enemie_boss_chicken/4_hurt/G21.png', 'img/4_enemie_boss_chicken/4_hurt/G22.png', 'img/4_enemie_boss_chicken/4_hurt/G23.png'];
   IMAGES_DEAD = ['img/4_enemie_boss_chicken/5_dead/G24.png', 'img/4_enemie_boss_chicken/5_dead/G25.png', 'img/4_enemie_boss_chicken/5_dead/G26.png'];
+  offset = {
+    top: 100,
+    left: 10,
+    right: 5,
+    bottom: 0,
+  };
 
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);

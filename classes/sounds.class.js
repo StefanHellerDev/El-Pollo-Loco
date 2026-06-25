@@ -7,12 +7,14 @@ class Sounds {
     jump: new Audio('sounds/jump.mp3'),
     hurt: new Audio('sounds/mixkit-ow-exclamation-of-pain-2204.wav'),
     bottleThrow: new Audio('sounds/mixkit-quick-rope-throw-730.mp3'),
+    getBottle: new Audio('sounds/get_bottle.mp3'),
+    getCoin: new Audio('sounds/get_coin.mp3'),
 
     chickenDead: new Audio('sounds/mixkit-creature-cry-of-hurt-2208.wav'),
 
     endbossHurt: new Audio('sounds/mixkit-aquatic-creature-scream-2203.wav'),
     endbossDead: new Audio('sounds/mixkit-arcade-space-shooter-dead-notification-272.wav'),
-    
+
     theme: new Audio('sounds/El_pollo_Loco_theme.mp3'),
   };
 
@@ -23,12 +25,13 @@ class Sounds {
     this.sounds.jump.volume = 0.5;
     this.sounds.hurt.volume = 0.6;
     this.sounds.bottleThrow.volume = 0.5;
+    this.sounds.getBottle.volume = 0.1;
+    this.sounds.getCoin.volume = 0.5;
 
     this.sounds.chickenDead.volume = 0.2;
 
     this.sounds.endbossHurt.volume = 0.5;
     this.sounds.endbossDead.volume = 0.9;
-    
 
     this.sounds.theme.loop = true;
     this.sounds.theme.volume = 0.2;
@@ -77,4 +80,11 @@ class Sounds {
       this.stopAll();
     }
   }
+
+  muteAll(status) {
+        this.isMuted = status;
+        Object.keys(this.sounds).forEach(key => {
+            this.sounds[key].muted = status;
+        });
+    }
 }

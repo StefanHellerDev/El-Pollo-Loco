@@ -132,7 +132,7 @@ class World {
   }
 
   checkCollisionsWithEndboss() {
-    if (this.character.isColliding(this.endboss)) {
+    if (this.character.isColliding(this.endboss) && this.endboss.dead != 1) {
       this.character.hit();
       this.statusBar.setPercentage(this.character.energy);
     }
@@ -173,6 +173,7 @@ class World {
           this.statusBarEndboss.setEndbossBar(this.endboss.energy);
           if (this.endboss.energy <= 0) {
             console.log('Endboss dead! - You won!');
+            this.world.sounds.play('endbossDead');
           }
         }
       }

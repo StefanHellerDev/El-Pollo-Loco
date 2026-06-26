@@ -1,16 +1,19 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let sounds = new Sounds();
 let isGameMuted = localStorage.getItem('isGameMuted') === 'true';
+let sounds = new Sounds(isGameMuted);
+let fullscreen = false;
 
 function init() {
+  console.log('localStorage Mute? ', isGameMuted);
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
-  sounds.startLoop('theme');
+  // sounds.startLoop('theme');
 }
 
 function startGame() {
+  isGameMuted = localStorage.getItem('isGameMuted') === 'true';
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
   sounds.startLoop('theme');
@@ -75,8 +78,48 @@ function toggleMute() {
 function updateMuteButton() {
   let btn = document.getElementById('sound_btn');
   if (isGameMuted) {
-    btn.style.opacity = '0.4';
-  } else {
     btn.style.opacity = '1';
+  } else {
+    btn.style.opacity = '0.4';
+  }
+}
+
+function toggleFullscreen() {
+  fullscreen = !fullscreen;
+  if (fullscreen) {
+    let element = document.getElementById('screen');
+    enterFullscreen(element);
+  } else {
+    exitFullscreen();
+  }
+  updateFullscreenButton();
+}
+
+function updateFullscreenButton() {
+  let btn = document.getElementById('fullscreen_btn');
+  if (fullscreen) {
+    btn.style.opacity = '1';
+  } else {
+    btn.style.opacity = '0.4';
+  }
+}
+
+function enterFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    // for IE11 (remove June 15, 2022)
+    element.msRequestFullscreen();
+  }
+}
+
+function exitFullscreen() {
+  console.log('exit fullscreen');
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
   }
 }

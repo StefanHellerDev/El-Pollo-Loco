@@ -2,7 +2,7 @@ class StatusBarEndboss extends DrawableObject {
   // 595x158; height durch 158, mal 595
   width = 250;
   height = (this.width / 595) * 158;
-  y = -5;
+  y = 20;
   x = 465;
   startEnerg;
 

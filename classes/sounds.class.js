@@ -18,12 +18,12 @@ class Sounds {
     theme: new Audio('sounds/El_pollo_Loco_theme.mp3'),
   };
 
-  constructor() {
+  constructor(isGameMuted) {
     this.sounds.walk.loop = true;
     this.sounds.walk.volume = 0.4;
 
     this.sounds.jump.volume = 0.5;
-    this.sounds.hurt.volume = 0.6;
+    this.sounds.hurt.volume = 0.4;
     this.sounds.bottleThrow.volume = 0.5;
     this.sounds.getBottle.volume = 0.1;
     this.sounds.getCoin.volume = 0.5;
@@ -35,6 +35,8 @@ class Sounds {
 
     this.sounds.theme.loop = true;
     this.sounds.theme.volume = 0.2;
+    this.muteAll(isGameMuted);
+    updateMuteButton();
   }
 
   play(name) {
@@ -82,9 +84,9 @@ class Sounds {
   }
 
   muteAll(status) {
-        this.isMuted = status;
-        Object.keys(this.sounds).forEach(key => {
-            this.sounds[key].muted = status;
-        });
-    }
+    this.isMuted = status;
+    Object.keys(this.sounds).forEach((key) => {
+      this.sounds[key].muted = status;
+    });
+  }
 }

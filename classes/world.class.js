@@ -48,7 +48,7 @@ class World {
   checkThrownObjects() {
     if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
       this.character.idleWait = 0;
-      this.world.sounds.stop('sleep');
+      this.sounds.stop('sleep');
 
       this.sounds.play('bottleThrow');
       if (!this.character.otherDirection) {
@@ -174,7 +174,7 @@ class World {
           this.statusBarEndboss.setEndbossBar(this.endboss.energy);
           if (this.endboss.energy <= 0) {
             console.log('Endboss dead! - You won!');
-            this.world.sounds.play('endbossDead');
+            this.sounds.play('endbossDead');
           }
         }
       }

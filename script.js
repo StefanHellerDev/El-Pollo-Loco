@@ -87,7 +87,7 @@ function updateMuteButton() {
 function toggleFullscreen() {
   fullscreen = !fullscreen;
   if (fullscreen) {
-    let element = document.getElementById('screen');
+    let element = document.getElementById('fullscreen');
     enterFullscreen(element);
   } else {
     exitFullscreen();
@@ -109,9 +109,8 @@ function enterFullscreen(element) {
     element.requestFullscreen();
   } else if (element.webkitRequestFullscreen) {
     element.webkitRequestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    // for IE11 (remove June 15, 2022)
-    element.msRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
   }
 }
 

@@ -28,7 +28,8 @@ class Sounds {
     this.sounds.bottleThrow.volume = 0.5;
     this.sounds.getBottle.volume = 0.1;
     this.sounds.getCoin.volume = 0.5;
-    this.sounds.sleep.volume = 0.4;
+    this.sounds.sleep.loop = true;
+    this.sounds.sleep.volume = 0.3;
 
     this.sounds.chickenDead.volume = 0.2;
 

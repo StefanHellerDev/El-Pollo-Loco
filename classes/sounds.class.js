@@ -9,6 +9,7 @@ class Sounds {
     bottleThrow: new Audio('sounds/mixkit-quick-rope-throw-730.mp3'),
     getBottle: new Audio('sounds/get_bottle.mp3'),
     getCoin: new Audio('sounds/get_coin.mp3'),
+    sleep: new Audio('sounds/mixkit-sleep-breathing-1914.wav'),
 
     chickenDead: new Audio('sounds/mixkit-creature-cry-of-hurt-2208.wav'),
 
@@ -27,6 +28,7 @@ class Sounds {
     this.sounds.bottleThrow.volume = 0.5;
     this.sounds.getBottle.volume = 0.1;
     this.sounds.getCoin.volume = 0.5;
+    this.sounds.sleep.volume = 0.4;
 
     this.sounds.chickenDead.volume = 0.2;
 

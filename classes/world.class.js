@@ -48,6 +48,7 @@ class World {
   checkThrownObjects() {
     if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
       this.character.idleWait = 0;
+      this.world.sounds.stop('sleep');
 
       this.sounds.play('bottleThrow');
       if (!this.character.otherDirection) {

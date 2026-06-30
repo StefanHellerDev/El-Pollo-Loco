@@ -87,6 +87,7 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_IDLE);
       this.idleWait++;
       if (this.idleWait > 25) {
+        this.world.sounds.startLoop('sleep');
         this.playAnimation(this.IMAGES_LONGIDLE);
       }
     }, 1000 / 5);
@@ -94,6 +95,7 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.world.keyboard.KEY_RIGHT && this.x < this.world.level.level_end_x) {
         this.idleWait = 0;
+        this.world.sounds.stop('sleep');
         this.moveRight();
         this.otherDirection = false;
         this.isWalking = true;
@@ -101,6 +103,7 @@ class Character extends MovableObject {
 
       if (this.world.keyboard.KEY_LEFT && this.x > 100) {
         this.idleWait = 0;
+        this.world.sounds.stop('sleep');
         this.moveLeft();
         this.otherDirection = true;
         this.isWalking = true;
@@ -132,11 +135,13 @@ class Character extends MovableObject {
     setInterval(() => {
       if ((this.world.keyboard.KEY_UP || this.world.keyboard.KEY_SPACE) && !this.isAboveGround()) {
         this.idleWait = 0;
+        this.world.sounds.stop('sleep');
         this.jump();
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
         if (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
           this.idleWait = 0;
+          this.world.sounds.stop('sleep');
           this.playAnimation(this.IMAGES_WALKING);
         }
       }

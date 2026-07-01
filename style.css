@@ -26,20 +26,62 @@ canvas {
   display: block;
   width: 100%;
   height: 100%;
+  touch-action: none;
 }
 
 #fullscreen {
   position: relative;
   max-width: 720px;
-  /* width: 100%; */
+  width: 100%;
   max-height: 480px;
   margin: 0 auto;
-  border-style: dashed;
+  /* border-style: dashed;
   border-color: aquamarine;
-  border-width: 1px;
+  border-width: 1px; */
 }
 
-#sound_btn {
+#start_img_cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.start_img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.start_button {
+  position: absolute;
+  bottom: 25px;
+  color: white;
+  font-size: 40px;
+  text-shadow: 2px 2px 4px black;
+  animation: blinky 1.5s infinite;
+  cursor: pointer;
+}
+
+@keyframes blinky {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+#sound_button {
   position: absolute;
   top: 8px;
   right: 42px;
@@ -57,7 +99,7 @@ canvas {
   z-index: 100;
 }
 
-#fullscreen_btn {
+#fullscreen_button {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -102,7 +144,7 @@ canvas {
   width: 45%;
 }
 
-.touch_buttons_area {
+#touch_buttons_area {
   display: flex;
   position: absolute;
   bottom: 10px;
@@ -120,7 +162,7 @@ canvas {
   /* pointer-events: auto; */
 }
 
-.touch_buttons_area button {
+#touch_buttons_area button {
   width: 60px;
   height: 60px;
   background-color: rgba(255, 255, 255, 0.3);
@@ -131,6 +173,16 @@ canvas {
   justify-content: center;
   /* color: white; */
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media (pointer: coarse) {
+  #touch_buttons_area.active-controls {
+    display: flex !important;
+  }
 }
 
 @media (orientation: portrait) {

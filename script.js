@@ -7,62 +7,111 @@ let fullscreen = false;
 
 function init() {
   console.log('localStorage Mute? ', isGameMuted);
-  canvas = document.getElementById('canvas');
-  world = new World(canvas, keyboard, sounds);
+  // canvas = document.getElementById('canvas');
+  // world = new World(canvas, keyboard, sounds);
   // sounds.startLoop('theme');
+
+  // initTouchControls();
+  // updateMuteButton();
+  // updateFullscreenButton();
 }
 
 function startGame() {
+  document.getElementById('start_img_cont').classList.add('d_none');
   isGameMuted = localStorage.getItem('isGameMuted') === 'true';
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
-  sounds.startLoop('theme');
+  sounds?.startLoop('theme');
+
+  initTouchControls();
+  updateMuteButton();
+  updateFullscreenButton();
+}
+
+function initTouchControls() {
+  bindHoldButton('button_left', 'KEY_LEFT');
+  bindHoldButton('button_right', 'KEY_RIGHT');
+  bindHoldButton('button_jump', 'KEY_SPACE');
+  bindTapButton('button_throw', 'KEY_D');
+}
+
+function bindHoldButton(buttonId, keyName) {
+  const btn = document.getElementById(buttonId);
+  if (!btn) return;
+  if (btn.dataset.touchBound === '1') return;
+  btn.dataset.touchBound = '1';
+
+  btn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    btn.setPointerCapture?.(e.pointerId);
+    setKeyboardKey(keyName, true);
+  });
+
+  btn.addEventListener('pointerup', (e) => {
+    e.preventDefault();
+    btn.releasePointerCapture?.(e.pointerId);
+    setKeyboardKey(keyName, false);
+  });
+
+  btn.addEventListener('pointercancel', (e) => {
+    e.preventDefault();
+    setKeyboardKey(keyName, false);
+  });
+
+  btn.addEventListener('lostpointercapture', () => {
+    setKeyboardKey(keyName, false);
+  });
+
+  btn.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+}
+
+function bindTapButton(buttonId, keyName) {
+  const btn = document.getElementById(buttonId);
+  if (!btn) return;
+  if (btn.dataset.touchBound === '1') return;
+  btn.dataset.touchBound = '1';
+
+  btn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+
+    setKeyboardKey(keyName, true);
+
+    setTimeout(() => {
+      setKeyboardKey(keyName, false);
+    }, 80);
+  });
+
+  btn.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+}
+
+function setKeyboardKey(keyName, value) {
+  keyboard[keyName] = value;
+
+  if (world?.character && (keyName === 'KEY_LEFT' || keyName === 'KEY_RIGHT')) {
+    world.character.isWalking = keyboard.KEY_LEFT || keyboard.KEY_RIGHT;
+  }
 }
 
 window.addEventListener('keydown', (event) => {
-  if (event.key === ' ') {
-    keyboard.KEY_SPACE = true;
-  }
-  if (event.key === 'd') {
-    keyboard.KEY_D = true;
-  }
-  if (event.key === 'ArrowLeft') {
-    keyboard.KEY_LEFT = true;
-    world.character.isWalking = true;
-  }
-  if (event.key === 'ArrowUp') {
-    keyboard.KEY_UP = true;
-  }
-  if (event.key === 'ArrowRight') {
-    keyboard.KEY_RIGHT = true;
-    world.character.isWalking = true;
-  }
-  if (event.key === 'ArrowDown') {
-    keyboard.KEY_DOWN = true;
-  }
+  if (event.key === ' ') setKeyboardKey('KEY_SPACE', true);
+  if (event.key === 'd') setKeyboardKey('KEY_D', true);
+  if (event.key === 'ArrowLeft') setKeyboardKey('KEY_LEFT', true);
+  if (event.key === 'ArrowUp') setKeyboardKey('KEY_UP', true);
+  if (event.key === 'ArrowRight') setKeyboardKey('KEY_RIGHT', true);
+  if (event.key === 'ArrowDown') setKeyboardKey('KEY_DOWN', true);
 });
 
 window.addEventListener('keyup', (event) => {
-  if (event.key === ' ') {
-    keyboard.KEY_SPACE = false;
-  }
-  if (event.key === 'd') {
-    keyboard.KEY_D = false;
-  }
-  if (event.key === 'ArrowLeft') {
-    keyboard.KEY_LEFT = false;
-    world.character.isWalking = false;
-  }
-  if (event.key === 'ArrowUp') {
-    keyboard.KEY_UP = false;
-  }
-  if (event.key === 'ArrowRight') {
-    keyboard.KEY_RIGHT = false;
-    world.character.isWalking = false;
-  }
-  if (event.key === 'ArrowDown') {
-    keyboard.KEY_DOWN = false;
-  }
+  if (event.key === ' ') setKeyboardKey('KEY_SPACE', false);
+  if (event.key === 'd') setKeyboardKey('KEY_D', false);
+  if (event.key === 'ArrowLeft') setKeyboardKey('KEY_LEFT', false);
+  if (event.key === 'ArrowUp') setKeyboardKey('KEY_UP', false);
+  if (event.key === 'ArrowRight') setKeyboardKey('KEY_RIGHT', false);
+  if (event.key === 'ArrowDown') setKeyboardKey('KEY_DOWN', false);
 });
 
 function toggleMute() {
@@ -72,11 +121,11 @@ function toggleMute() {
     world.sounds.muteAll(isGameMuted);
   }
   updateMuteButton();
-  document.getElementById('sound_btn').blur();
+  document.getElementById('sound_button').blur();
 }
 
 function updateMuteButton() {
-  let btn = document.getElementById('sound_btn');
+  let btn = document.getElementById('sound_button');
   if (isGameMuted) {
     btn.style.opacity = '1';
   } else {
@@ -96,7 +145,7 @@ function toggleFullscreen() {
 }
 
 function updateFullscreenButton() {
-  let btn = document.getElementById('fullscreen_btn');
+  let btn = document.getElementById('fullscreen_button');
   if (fullscreen) {
     btn.style.opacity = '1';
   } else {

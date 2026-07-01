@@ -9,11 +9,6 @@ function init() {
   console.log('localStorage Mute? ', isGameMuted);
   // canvas = document.getElementById('canvas');
   // world = new World(canvas, keyboard, sounds);
-  // sounds.startLoop('theme');
-
-  // initTouchControls();
-  // updateMuteButton();
-  // updateFullscreenButton();
 }
 
 function startGame() {
@@ -26,6 +21,13 @@ function startGame() {
   initTouchControls();
   updateMuteButton();
   updateFullscreenButton();
+
+  const isTouchLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 500px)').matches;
+  if (isTouchLandscape) {
+    let controls = document.getElementById('touch_buttons_area');
+    controls.classList.remove('d_none');
+    controls.classList.add('controls_active');
+  }
 }
 
 function initTouchControls() {

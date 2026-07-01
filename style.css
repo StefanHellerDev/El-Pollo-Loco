@@ -180,7 +180,7 @@ canvas {
 }
 
 @media (pointer: coarse) {
-  #touch_buttons_area.active-controls {
+  #touch_buttons_area.controls_active {
     display: flex !important;
   }
 }

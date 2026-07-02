@@ -6,9 +6,7 @@ let sounds = new Sounds(isGameMuted);
 let fullscreen = false;
 
 function init() {
-  console.log('localStorage Mute? ', isGameMuted);
-  // canvas = document.getElementById('canvas');
-  // world = new World(canvas, keyboard, sounds);
+  initTouchDeviceClass();
 }
 
 function startGame() {
@@ -166,10 +164,15 @@ function enterFullscreen(element) {
 }
 
 function exitFullscreen() {
-  console.log('exit fullscreen');
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
+  }
+}
+
+function initTouchDeviceClass() {
+  if (navigator.maxTouchPoints > 0) {
+    document.body.classList.add('is-touch-device');
   }
 }

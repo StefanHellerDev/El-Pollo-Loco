@@ -173,7 +173,6 @@ class World {
           this.endboss.hit();
           this.statusBarEndboss.setEndbossBar(this.endboss.energy);
           if (this.endboss.energy <= 0) {
-            console.log('Endboss dead! - You won!');
             this.sounds.play('endbossDead');
           }
         }

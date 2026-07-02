@@ -12,7 +12,7 @@ class DrawableObject {
     right: 0,
     bottom: 0,
   };
-  intervallIDs = [];
+  intervalIDs = [];
 
   loadImage(path) {
     this.img = new Image();
@@ -61,6 +61,6 @@ class DrawableObject {
 
   setStoppableInterval(fn, time) {
     let id = setInterval(fn, time);
-    this.intervallIDs.push(id);
+    this.intervalIDs.push(id);
   }
 }

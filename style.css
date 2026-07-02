@@ -188,6 +188,90 @@ body.is-touch-device #touch_buttons_area {
   display: flex;
 }
 
+#endscreen {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#endscreen.controls_active {
+  display: flex !important;
+}
+
+.end_img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 720px;
+  height: 480px;
+  z-index: 40;
+  transform: translate(-50%, -50%) scale(0);
+  animation: openFromCenter 0.5s ease-out forwards;
+}
+
+@keyframes openFromCenter {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+#button_restart {
+    font-size: 20px;
+    color: black;
+    position: absolute;
+    bottom: 30px;
+    right: 100px;
+    width: 150px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+#button_restart:hover,
+#button_main:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+#button_main {
+    font-size: 20px;
+    color: black;
+    position: absolute;
+    bottom: 30px;
+    left: 100px;
+    width: 150px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
 @media (hover: none) and (pointer: coarse) {
   #touch_buttons_area {
     display: flex;

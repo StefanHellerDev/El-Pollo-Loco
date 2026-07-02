@@ -12,7 +12,7 @@ class Character extends MovableObject {
     right: 10,
     bottom: 5,
   };
-  energy = 10000;
+  energy = 1000;
   isWalking;
 
   IMAGES_WALKING = [
@@ -118,11 +118,12 @@ class Character extends MovableObject {
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-    setInterval(() => {
+    this.setStoppableInterval(() => {
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+        characterDead();
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {

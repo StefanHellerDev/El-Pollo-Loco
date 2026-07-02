@@ -176,3 +176,23 @@ function initTouchDeviceClass() {
     document.body.classList.add('is-touch-device');
   }
 }
+
+function characterDead() {
+  console.log('Character dead');
+  stopAllIntervals();
+  let controls = document.getElementById('endscreen');
+    controls.classList.remove('d_none');
+    controls.classList.add('controls_active');
+}
+
+function stopAllIntervals() {
+  for (let i = 1; i < 9999; i++) window.clearInterval(i);
+}
+
+function restartGame() {
+  
+}
+
+function backToMainScreen() {
+
+}

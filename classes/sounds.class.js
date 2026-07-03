@@ -37,7 +37,7 @@ class Sounds {
     this.sounds.endbossDead.volume = 0.9;
 
     this.sounds.theme.loop = true;
-    this.sounds.theme.volume = 0.2;
+    this.sounds.theme.volume = 0.1;
     this.muteAll(isGameMuted);
     updateMuteButton();
   }

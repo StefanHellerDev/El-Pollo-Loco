@@ -199,10 +199,10 @@ body.is-touch-device #touch_buttons_area {
   height: 100%;
   z-index: 20;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-#endscreen.controls_active {
+#endscreen.buttons_active {
   display: flex !important;
 }
 
@@ -210,8 +210,8 @@ body.is-touch-device #touch_buttons_area {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 720px;
-  height: 480px;
+  width: 90%;
+  height: 90%;
   z-index: 40;
   transform: translate(-50%, -50%) scale(0);
   animation: openFromCenter 0.5s ease-out forwards;
@@ -230,46 +230,46 @@ body.is-touch-device #touch_buttons_area {
 }
 
 #button_restart {
-    font-size: 20px;
-    color: black;
-    position: absolute;
-    bottom: 30px;
-    right: 100px;
-    width: 150px;
-    height: 45px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    z-index: 90;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
+  font-size: 20px;
+  color: black;
+  position: absolute;
+  bottom: 30px;
+  right: 100px;
+  width: 150px;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
 }
 
 #button_restart:hover,
 #button_main:hover {
-    background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 1);
 }
 
 #button_main {
-    font-size: 20px;
-    color: black;
-    position: absolute;
-    bottom: 30px;
-    left: 100px;
-    width: 150px;
-    height: 45px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    z-index: 90;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
+  font-size: 20px;
+  color: black;
+  position: absolute;
+  bottom: 30px;
+  left: 250px;
+  width: 150px;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
 }
 
 @media (hover: none) and (pointer: coarse) {
@@ -279,7 +279,7 @@ body.is-touch-device #touch_buttons_area {
 }
 
 @media (pointer: coarse) {
-  #touch_buttons_area.controls_active {
+  #touch_buttons_area.buttons_active {
     display: flex !important;
   }
 }

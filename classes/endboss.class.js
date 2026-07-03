@@ -68,6 +68,7 @@ class Endboss extends MovableObject {
           this.y = 480 - this.height / 2 - 50;
           this.loadImage(this.IMAGES_DEAD[1]);
         }, 1000);
+        gameOver('endboss');
       } else if (this.world.endboss.isHurt()) {
         this.endbossIsAttacking();
       } else if (this.characterIsCloseToEndboss()) {

@@ -6,14 +6,14 @@ let sounds = new Sounds(isGameMuted);
 let fullscreen = false;
 
 function init() {
-  initTouchDeviceClass();
+  canvas = document.getElementById('canvas');
+  world = new World(canvas, keyboard, sounds);
 }
 
 function startGame() {
+  initTouchDeviceClass();
   document.getElementById('start_img_cont').classList.add('d_none');
   isGameMuted = localStorage.getItem('isGameMuted') === 'true';
-  canvas = document.getElementById('canvas');
-  world = new World(canvas, keyboard, sounds);
   sounds?.startLoop('theme');
 
   initTouchControls();
@@ -24,8 +24,10 @@ function startGame() {
   if (isTouchLandscape) {
     let controls = document.getElementById('touch_buttons_area');
     controls.classList.remove('d_none');
-    controls.classList.add('controls_active');
+    controls.classList.add('buttons_active');
   }
+  initGame();
+  init();
 }
 
 function initTouchControls() {
@@ -177,12 +179,17 @@ function initTouchDeviceClass() {
   }
 }
 
-function characterDead() {
-  console.log('Character dead');
+function gameOver(deadPerson) {
   stopAllIntervals();
+  let end_img = document.getElementById('end_img');
+  if (deadPerson == 'character') {
+    end_img.src = 'img/You won, you lost/You lost.png';
+  } else {
+    end_img.src = 'img/You won, you lost/You won A.png';
+  }
   let controls = document.getElementById('endscreen');
-    controls.classList.remove('d_none');
-    controls.classList.add('controls_active');
+  controls.classList.remove('d_none');
+  controls.classList.add('buttons_active');
 }
 
 function stopAllIntervals() {
@@ -190,9 +197,17 @@ function stopAllIntervals() {
 }
 
 function restartGame() {
-  
+  let controls = document.getElementById('endscreen');
+  controls.classList.add('d_none');
+  controls.classList.remove('buttons_active');
+  initGame();
+  init();
 }
 
 function backToMainScreen() {
-
+  document.getElementById('start_img_cont').classList.remove('d_none');
+  let controls = document.getElementById('endscreen');
+  controls.classList.add('d_none');
+  controls.classList.remove('buttons_active');
+  // initGame();
 }

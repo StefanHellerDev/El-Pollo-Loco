@@ -35,7 +35,7 @@
   <script src="./script.js" defer></script>
 </head>
 
-<body onload="init()">
+<body>
   <!-- <body> -->
   <h1>El Pollo Loco</h1>
   <div id="fullscreen">
@@ -51,8 +51,7 @@
       </svg>
     </button>
     <button id="fullscreen_button" onclick="toggleFullscreen()">
-      <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        class="bi bi-fullscreen">
+      <svg width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z" />
       </svg>
@@ -94,7 +93,7 @@
 
 
     <div id="endscreen">
-      <img class="end_img" src="./img/9_intro_outro_screens/game_over/oh no you lost!.png">      
+      <img id="end_img" class="end_img" src="./img/9_intro_outro_screens/game_over/oh no you lost!.png">
       <button id="button_restart" onclick="restartGame()">Restart game</button>
       <button id="button_main" onclick="backToMainScreen()">Main</button>
     </div>

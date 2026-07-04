@@ -5,11 +5,6 @@ let isGameMuted = localStorage.getItem('isGameMuted') === 'true';
 let sounds = new Sounds(isGameMuted);
 let fullscreen = false;
 
-function init() {
-  canvas = document.getElementById('canvas');
-  world = new World(canvas, keyboard, sounds);
-}
-
 function startGame() {
   initTouchDeviceClass();
   document.getElementById('start_img_cont').classList.add('d_none');
@@ -20,14 +15,23 @@ function startGame() {
   updateMuteButton();
   updateFullscreenButton();
 
+  isDisplayTouchAndLandscape();
+  initGame();
+  init();
+}
+
+function isDisplayTouchAndLandscape() {
   const isTouchLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 500px)').matches;
   if (isTouchLandscape) {
     let controls = document.getElementById('touch_buttons_area');
     controls.classList.remove('d_none');
     controls.classList.add('buttons_active');
   }
-  initGame();
-  init();
+}
+
+function init() {
+  canvas = document.getElementById('canvas');
+  world = new World(canvas, keyboard, sounds);
 }
 
 function initTouchControls() {
@@ -74,17 +78,13 @@ function bindTapButton(buttonId, keyName) {
   if (!btn) return;
   if (btn.dataset.touchBound === '1') return;
   btn.dataset.touchBound = '1';
-
   btn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
-
     setKeyboardKey(keyName, true);
-
     setTimeout(() => {
       setKeyboardKey(keyName, false);
     }, 80);
   });
-
   btn.addEventListener('contextmenu', (e) => {
     e.preventDefault();
   });
@@ -92,7 +92,6 @@ function bindTapButton(buttonId, keyName) {
 
 function setKeyboardKey(keyName, value) {
   keyboard[keyName] = value;
-
   if (world?.character && (keyName === 'KEY_LEFT' || keyName === 'KEY_RIGHT')) {
     world.character.isWalking = keyboard.KEY_LEFT || keyboard.KEY_RIGHT;
   }

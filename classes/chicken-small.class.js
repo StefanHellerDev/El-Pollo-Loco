@@ -31,6 +31,10 @@ class ChickenSmall extends MovableObject {
       this.moveLeft();
     }, 1000 / 60);
 
+    this.animations();
+  }
+
+  animations() {
     setInterval(() => {
       if (this.isDead()) {
         this.dead = 1;

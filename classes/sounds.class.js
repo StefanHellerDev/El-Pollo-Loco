@@ -22,7 +22,6 @@ class Sounds {
   constructor(isGameMuted) {
     this.sounds.walk.loop = true;
     this.sounds.walk.volume = 0.4;
-
     this.sounds.jump.volume = 0.5;
     this.sounds.hurt.volume = 0.4;
     this.sounds.bottleThrow.volume = 0.5;
@@ -30,12 +29,9 @@ class Sounds {
     this.sounds.getCoin.volume = 0.5;
     this.sounds.sleep.loop = true;
     this.sounds.sleep.volume = 0.3;
-
     this.sounds.chickenDead.volume = 0.2;
-
     this.sounds.endbossHurt.volume = 0.5;
     this.sounds.endbossDead.volume = 0.9;
-
     this.sounds.theme.loop = true;
     this.sounds.theme.volume = 0.1;
     this.muteAll(isGameMuted);

@@ -47,23 +47,29 @@ class World {
 
   checkThrownObjects() {
     if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
-      this.character.idleWait = 0;
-      this.sounds.stop('sleep');
-
+      this.stopSleepSound();
       this.sounds.play('bottleThrow');
-      if (!this.character.otherDirection) {
-        let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100, this.character.otherDirection);
-        this.throwableObjects.push(bottle);
-      } else {
-        let bottle = new ThrowableObject(this.character.x - 40, this.character.y + 100, this.character.otherDirection);
-        this.throwableObjects.push(bottle);
-      }
-
+      this.chooseThrowDirection();
       this.timeKeyDpressed = new Date().getTime();
       this.bottleCount -= 1;
       this.bottleBar.setBottleBar(this.bottleCount);
     }
     this.deleteBottleOutOfWorld();
+  }
+
+  chooseThrowDirection() {
+    if (!this.character.otherDirection) {
+      let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100, this.character.otherDirection);
+      this.throwableObjects.push(bottle);
+    } else {
+      let bottle = new ThrowableObject(this.character.x - 40, this.character.y + 100, this.character.otherDirection);
+      this.throwableObjects.push(bottle);
+    }
+  }
+
+  stopSleepSound() {
+    this.character.idleWait = 0;
+    this.sounds.stop('sleep');
   }
 
   deleteBottleOutOfWorld() {
@@ -182,35 +188,37 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     this.ctx.translate(this.camera_x, 0);
-
-    this.addMultipleObjectsToMap(this.level.backgroundObjects);
-    this.addMultipleObjectsToMap(this.level.clouds);
-    this.addMultipleObjectsToMap(this.level.bottles);
-    this.addMultipleObjectsToMap(this.level.enemies);
-    this.addMultipleObjectsToMap(this.level.coins);
-    this.addToMap(this.endboss);
-    this.addToMap(this.character);
+    this.addObjectsToCanvas1();
+    this.addCharacterAndEndbossToCanvas();
     this.addMultipleObjectsToMap(this.throwableObjects);
-
     this.ctx.translate(-this.camera_x, 0);
+    this.addStatusbarsToCanvas();
+    requestAnimationFrame(() => {
+      this.draw();
+    });
+  }
 
+  addStatusbarsToCanvas() {
     this.addToMap(this.statusBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
     if (this.endboss.displayStatusbarEndboss) {
       this.addToMap(this.statusBarEndboss);
     }
+  }
 
-    // draw() wird immer wieder aufgerufen
-    // let self = this;
-    // requestAnimationFrame(function () {
-    //   self.draw();
-    // });
-    requestAnimationFrame(() => {
-      this.draw();
-    });
+  addCharacterAndEndbossToCanvas() {
+    this.addToMap(this.endboss);
+    this.addToMap(this.character);
+  }
+
+  addObjectsToCanvas1() {
+    this.addMultipleObjectsToMap(this.level.backgroundObjects);
+    this.addMultipleObjectsToMap(this.level.clouds);
+    this.addMultipleObjectsToMap(this.level.bottles);
+    this.addMultipleObjectsToMap(this.level.enemies);
+    this.addMultipleObjectsToMap(this.level.coins);
   }
 
   addMultipleObjectsToMap(objects) {
@@ -225,7 +233,6 @@ class World {
     }
 
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

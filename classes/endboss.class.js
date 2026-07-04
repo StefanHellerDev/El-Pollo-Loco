@@ -60,15 +60,13 @@ class Endboss extends MovableObject {
       this.moveLeft();
     }, 1000 / 60);
 
+    this.animations();
+  }
+
+  animations() {
     setInterval(() => {
       if (this.isDead()) {
-        this.dead = 1;
-        this.playAnimation(this.IMAGES_DEAD);
-        setTimeout(() => {
-          this.y = 480 - this.height / 2 - 50;
-          this.loadImage(this.IMAGES_DEAD[1]);
-        }, 1000);
-        gameOver('endboss');
+        this.endbossIsDead();
       } else if (this.world.endboss.isHurt()) {
         this.endbossIsAttacking();
       } else if (this.characterIsCloseToEndboss()) {
@@ -77,6 +75,16 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 1000 / 4);
+  }
+
+  endbossIsDead() {
+    this.dead = 1;
+    this.playAnimation(this.IMAGES_DEAD);
+    setTimeout(() => {
+      this.y = 480 - this.height / 2 - 50;
+      this.loadImage(this.IMAGES_DEAD[1]);
+    }, 1000);
+    gameOver('endboss');
   }
 
   characterIsCloseToEndboss() {

@@ -314,9 +314,13 @@ function gameOver(deadPerson) {
     end_img.src = 'img/You won, you lost/You won A.png';
   }
 
-  let controls = document.getElementById('endscreen');
-  controls.classList.remove('d_none');
-  controls.classList.add('buttons_active');
+  let controls = document.getElementById('touch_buttons_area');
+  controls.classList.add('d_none');
+  controls.classList.remove('buttons_active');
+
+  let endscreen = document.getElementById('endscreen');
+  endscreen.classList.remove('d_none');
+  endscreen.classList.add('buttons_active');
 }
 
 /**
@@ -337,6 +341,7 @@ function restartGame() {
   let controls = document.getElementById('endscreen');
   controls.classList.add('d_none');
   controls.classList.remove('buttons_active');
+  isDisplayTouchAndLandscape();
   initGame();
   init();
 }

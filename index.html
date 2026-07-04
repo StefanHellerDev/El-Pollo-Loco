@@ -33,6 +33,7 @@
   <script src="./classes/coin.class.js"></script>
   <script src="./levels/level1.js"></script>
   <script src="./script.js" defer></script>
+  <script src="./scripts/modal.js" defer></script>
 </head>
 
 <body>
@@ -98,6 +99,64 @@
       <button id="button_main" onclick="backToMainScreen()">Main</button>
     </div>
   </div>
+
+  <button id="information">
+    <p>Game info</p>
+    <p>and imprint</p>
+  </button>
+
+  <div id="modal" class="modal-overlay">
+    <div class="modal-box">
+      <button id="closeBtn" class="modal-close">×</button>
+      <h2>Game info</h2>
+      <p>Control your character Pepe with</p>
+      <p>the following keys:</p><br>
+      <table>
+        <tr>
+          <td class="left_td"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg></td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td class="left_td">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span>or</span>
+            <svg fill="#FFF" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21,9a1,1,0,0,0-1,1v3H4V10a1,1,0,0,0-2,0v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V10A1,1,0,0,0,21,9Z" />
+            </svg>
+          </td>
+          <td>Jump</td>
+        </tr>
+        <tr>
+          <td class="left_td"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></td>
+          <td>Right</td>
+        </tr>
+        <tr>
+          <td class="left_td">D</td>
+          <td>Throw bottle</td>
+        </tr>
+      </table>
+      <h2>Imprint</h2>
+      <div class="imprint">
+        <p>Stefan Heller</p>
+        <p>Weddinger Weg 3</p>
+        <p>48455 Bad Bentheim</p>
+        <p>Germany</p><br>
+        <h3>Contact</h3>
+        <p>Telephone: +49 176 20421494</p>
+        <p>Email: S_Heller@gmx.de</p>
+        <p>Source: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a></p>
+      </div>
+    </div>
+  </div>
+
 
   <div class="no_mobile_portrait">
     <!-- <div class="portrait_content"> -->

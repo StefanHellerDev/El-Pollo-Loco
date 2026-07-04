@@ -296,8 +296,8 @@ function initTouchDeviceClass() {
 }
 
 /**
- * Ends the game, stops all intervals, displays the correct end screen image,
- * and shows the end screen controls.
+ * Ends the game, displays the correct end screen image,
+ * adjusts the main button position, and hides the touch controls.
  *
  * @param {string} deadPerson - The defeated character type.
  * @returns {void}
@@ -313,14 +313,30 @@ function gameOver(deadPerson) {
     button_main.style.left = '100px';
     end_img.src = 'img/You won, you lost/You won A.png';
   }
+  hideTouchButton();
+  showEndscreen();
+}
 
-  let controls = document.getElementById('touch_buttons_area');
-  controls.classList.add('d_none');
-  controls.classList.remove('buttons_active');
-
+/**
+ * Shows the end screen and activates its buttons.
+ *
+ * @returns {void}
+ */
+function showEndscreen() {
   let endscreen = document.getElementById('endscreen');
   endscreen.classList.remove('d_none');
   endscreen.classList.add('buttons_active');
+}
+
+/**
+ * Hides the touch control buttons and removes their active state.
+ *
+ * @returns {void}
+ */
+function hideTouchButton() {
+  let controls = document.getElementById('touch_buttons_area');
+  controls.classList.add('d_none');
+  controls.classList.remove('buttons_active');
 }
 
 /**

@@ -1,8 +1,8 @@
 class ChickenSmall extends MovableObject {
   // 236x210; height durch 210, mal 236
   height = 40;
-  width = (this.height / 210) * 236; //
-  y = 480 - this.height - 50; //
+  width = (this.height / 210) * 236;
+  y = 480 - this.height - 50;
   IMAGES_WALKING = [
     'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
     'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
@@ -21,7 +21,7 @@ class ChickenSmall extends MovableObject {
     super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 400 + Math.random() * 800;
+    this.x = 500 + Math.random() * 800;
     this.speed = 0.15 + Math.random() * 0.25;
     this.animate();
   }

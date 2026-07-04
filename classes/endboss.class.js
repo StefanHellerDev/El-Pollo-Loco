@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
   height = 500;
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;
-  energy = 10; // 5 per hit
+  energy = 25; // 5 less per hit
   speed = 0.05;
   lastSpeed;
   displayStatusbarEndboss = false;

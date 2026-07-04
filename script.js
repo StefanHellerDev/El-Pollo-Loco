@@ -209,5 +209,4 @@ function backToMainScreen() {
   let controls = document.getElementById('endscreen');
   controls.classList.add('d_none');
   controls.classList.remove('buttons_active');
-  // initGame();
 }

@@ -1,3 +1,9 @@
+/**
+ * Represents the main playable character and handles movement, gravity,
+ * sounds, and character animations.
+ *
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
   // 610x1200; height durch 1200, mal 610
   height = 250;
@@ -23,6 +29,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-26.png',
   ];
+
   IMAGES_JUMPING = [
     'img/2_character_pepe/3_jump/J-31.png',
     'img/2_character_pepe/3_jump/J-32.png',
@@ -34,7 +41,9 @@ class Character extends MovableObject {
     'img/2_character_pepe/3_jump/J-38.png',
     'img/2_character_pepe/3_jump/J-39.png',
   ];
+
   IMAGES_HURT = ['img/2_character_pepe/4_hurt/H-41.png', 'img/2_character_pepe/4_hurt/H-42.png', 'img/2_character_pepe/4_hurt/H-43.png'];
+
   IMAGES_DEAD = [
     'img/2_character_pepe/5_dead/D-51.png',
     'img/2_character_pepe/5_dead/D-52.png',
@@ -44,6 +53,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/5_dead/D-56.png',
     'img/2_character_pepe/5_dead/D-57.png',
   ];
+
   IMAGES_IDLE = [
     'img/2_character_pepe/1_idle/idle/I-1.png',
     'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -56,6 +66,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/1_idle/idle/I-9.png',
     'img/2_character_pepe/1_idle/idle/I-10.png',
   ];
+
   IMAGES_LONGIDLE = [
     'img/2_character_pepe/1_idle/long_idle/I-11.png',
     'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -69,6 +80,10 @@ class Character extends MovableObject {
     'img/2_character_pepe/1_idle/long_idle/I-20.png',
   ];
 
+  /**
+   * Creates a new character, loads all animation images,
+   * applies gravity, and starts the animation logic.
+   */
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
     this.loadImages(this.IMAGES_WALKING);
@@ -81,16 +96,23 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts all character-related animation and movement intervals.
+   *
+   * @returns {void}
+   */
   animate() {
     this.idleAnimations();
-
     this.movement();
-
     this.animations();
-
     this.jumping();
   }
 
+  /**
+   * Handles jumping input and plays jumping or walking animations.
+   *
+   * @returns {void}
+   */
   jumping() {
     setInterval(() => {
       if ((this.world.keyboard.KEY_UP || this.world.keyboard.KEY_SPACE) && !this.isAboveGround()) {
@@ -108,6 +130,11 @@ class Character extends MovableObject {
     }, 1000 / 20);
   }
 
+  /**
+   * Plays the correct character animation depending on the current state.
+   *
+   * @returns {void}
+   */
   animations() {
     this.setStoppableInterval(() => {
       if (this.isHurt()) {
@@ -125,19 +152,32 @@ class Character extends MovableObject {
     }, 1000 / 20);
   }
 
+  /**
+   * Handles character movement, walking sounds, and camera position.
+   *
+   * @returns {void}
+   */
   movement() {
     setInterval(() => {
       this.characterMovesRight();
       this.characterMovesLeft();
+
       if (this.isWalking && !this.isAboveGround()) {
         this.world.sounds.startLoop('walk');
       } else {
         this.world.sounds.stop('walk');
       }
+
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
   }
 
+  /**
+   * Moves the character to the left if the left key is pressed
+   * and the character is inside the allowed world boundaries.
+   *
+   * @returns {void}
+   */
   characterMovesLeft() {
     if (this.world.keyboard.KEY_LEFT && this.x > 100) {
       this.idleWait = 0;
@@ -148,6 +188,12 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Moves the character to the right if the right key is pressed
+   * and the character has not reached the level end.
+   *
+   * @returns {void}
+   */
   characterMovesRight() {
     if (this.world.keyboard.KEY_RIGHT && this.x < this.world.level.level_end_x) {
       this.idleWait = 0;
@@ -158,10 +204,16 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Plays idle animations and switches to long idle animation after waiting.
+   *
+   * @returns {void}
+   */
   idleAnimations() {
     setInterval(() => {
       this.playAnimation(this.IMAGES_IDLE);
       this.idleWait++;
+
       if (this.idleWait > 25) {
         this.world.sounds.startLoop('sleep');
         this.playAnimation(this.IMAGES_LONGIDLE);

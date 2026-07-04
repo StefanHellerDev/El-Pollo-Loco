@@ -1,3 +1,8 @@
+/**
+ * Represents the bottle status bar and displays the current amount of collected bottles.
+ *
+ * @extends DrawableObject
+ */
 class BottleBar extends DrawableObject {
   // 595x158; height durch 158, mal 595
   width = 250;
@@ -15,18 +20,34 @@ class BottleBar extends DrawableObject {
     'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
   ];
 
+  /**
+   * Creates a new bottle status bar and sets the initial bottle count.
+   *
+   * @param {number} bottleCount - The current number of collected bottles.
+   */
   constructor(bottleCount) {
     super();
     this.loadImages(this.IMAGES_BOTTLEBAR);
     this.setBottleBar(bottleCount);
   }
 
+  /**
+   * Updates the bottle status bar based on the current bottle count.
+   *
+   * @param {number} bottleCount - The current number of collected bottles.
+   * @returns {void}
+   */
   setBottleBar(bottleCount) {
     this.bottleCount = bottleCount;
     let path = this.IMAGES_BOTTLEBAR[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the correct image index for the current bottle count.
+   *
+   * @returns {number} The index of the matching bottle status bar image.
+   */
   resolveImageIndex() {
     if (this.bottleCount > 9) {
       return 0;

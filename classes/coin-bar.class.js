@@ -1,3 +1,8 @@
+/**
+ * Represents the coin status bar and displays the current amount of collected coins.
+ *
+ * @extends DrawableObject
+ */
 class CoinBar extends DrawableObject {
   // 595x158; height durch 158, mal 595
   width = 250;
@@ -15,18 +20,34 @@ class CoinBar extends DrawableObject {
     'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
   ];
 
+  /**
+   * Creates a new coin status bar and sets the initial coin count.
+   *
+   * @param {number} coinCount - The current number of collected coins.
+   */
   constructor(coinCount) {
     super();
     this.loadImages(this.IMAGES_COINBAR);
     this.setCoinBar(coinCount);
   }
 
+  /**
+   * Updates the coin status bar based on the current coin count.
+   *
+   * @param {number} coinCount - The current number of collected coins.
+   * @returns {void}
+   */
   setCoinBar(coinCount) {
     this.coinCount = coinCount;
     let path = this.IMAGES_COINBAR[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the correct image index for the current coin count.
+   *
+   * @returns {number} The index of the matching coin status bar image.
+   */
   resolveImageIndex() {
     if (this.coinCount > 9) {
       return 0;

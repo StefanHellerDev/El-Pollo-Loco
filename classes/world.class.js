@@ -1,3 +1,7 @@
+/**
+ * Represents the main game world and manages rendering, collisions,
+ * object interactions, player actions, and game state updates.
+ */
 class World {
   character = new Character();
   statusBar = new StatusBar(this.character.energy);
@@ -20,6 +24,14 @@ class World {
   coinCount = 0;
   timeKeyDpressed = 1781619044044;
 
+  /**
+   * Creates a new game world, initializes canvas rendering,
+   * connects input and sound handling, and starts the game loop.
+   *
+   * @param {HTMLCanvasElement} canvas - The canvas element used to render the game.
+   * @param {Keyboard} keyboard - The keyboard input state used to control the character.
+   * @param {Sounds} sounds - The sound manager used to play game sounds.
+   */
   constructor(canvas, keyboard, sounds) {
     this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
@@ -33,11 +45,21 @@ class World {
     this.run();
   }
 
+  /**
+   * Assigns the current world instance to objects that need world access.
+   *
+   * @returns {void}
+   */
   setWorld() {
     this.character.world = this;
     this.endboss.world = this;
   }
 
+  /**
+   * Starts the main game logic interval for collisions and thrown objects.
+   *
+   * @returns {void}
+   */
   run() {
     setInterval(() => {
       this.checkCollisions();
@@ -45,6 +67,12 @@ class World {
     }, 1000 / 60);
   }
 
+  /**
+   * Checks whether a bottle should be thrown and removes bottles
+   * that have left the visible game world.
+   *
+   * @returns {void}
+   */
   checkThrownObjects() {
     if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
       this.stopSleepSound();
@@ -57,6 +85,11 @@ class World {
     this.deleteBottleOutOfWorld();
   }
 
+  /**
+   * Creates a throwable bottle in the direction the character is facing.
+   *
+   * @returns {void}
+   */
   chooseThrowDirection() {
     if (!this.character.otherDirection) {
       let bottle = new ThrowableObject(this.character.x + 40, this.character.y + 100, this.character.otherDirection);
@@ -67,11 +100,21 @@ class World {
     }
   }
 
+  /**
+   * Resets the character idle timer and stops the sleep sound.
+   *
+   * @returns {void}
+   */
   stopSleepSound() {
     this.character.idleWait = 0;
     this.sounds.stop('sleep');
   }
 
+  /**
+   * Removes throwable bottles that have fallen below the game world.
+   *
+   * @returns {void}
+   */
   deleteBottleOutOfWorld() {
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
@@ -82,11 +125,24 @@ class World {
     }
   }
 
+  /**
+   * Checks whether enough time has passed since a specific event.
+   *
+   * @param {number} time - The required delay in milliseconds.
+   * @param {number} event - The timestamp of the previous event.
+   * @returns {boolean} True if the required time has passed, otherwise false.
+   */
   timeSinceObjectThrown(time, event) {
     let timePassed = new Date().getTime() - event;
     return timePassed > time;
   }
 
+  /**
+   * Checks all relevant collisions between the character, enemies,
+   * collectibles, the endboss, and throwable objects.
+   *
+   * @returns {void}
+   */
   checkCollisions() {
     this.checkCollisionsWithEnemies();
     this.checkCollisionsWithEndboss();
@@ -95,6 +151,12 @@ class World {
     this.checkCollisionEndbossWithFlyingBottle();
   }
 
+  /**
+   * Checks collisions between the character and all enemies.
+   * Handles jumping on enemies and taking damage.
+   *
+   * @returns {void}
+   */
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
       if (enemy.isDead()) return;
@@ -112,6 +174,12 @@ class World {
     });
   }
 
+  /**
+   * Checks whether the character landed on top of a chicken enemy.
+   *
+   * @param {MovableObject} enemy - The enemy to check against.
+   * @returns {boolean} True if the character jumped on the enemy, otherwise false.
+   */
   jumpedOnChicken(enemy) {
     if (enemy.isDead()) return false;
     if (!this.character.isColliding(enemy)) return false;
@@ -125,6 +193,12 @@ class World {
     return cameFromAbove && landedOnTop;
   }
 
+  /**
+   * Calculates the hitbox boundaries of a game object.
+   *
+   * @param {DrawableObject} obj - The object whose hitbox should be calculated.
+   * @returns {{top: number, bottom: number, left: number, right: number}} The hitbox boundaries.
+   */
   getHitbox(obj) {
     return {
       top: obj.y + obj.offset.top,
@@ -134,10 +208,21 @@ class World {
     };
   }
 
+  /**
+   * Calculates the previous bottom position of an object.
+   *
+   * @param {DrawableObject} obj - The object whose previous bottom position should be calculated.
+   * @returns {number} The previous bottom position of the object.
+   */
   getPreviousBottom(obj) {
     return obj.lastY + obj.height - obj.offset.bottom;
   }
 
+  /**
+   * Checks collisions between the character and the endboss.
+   *
+   * @returns {void}
+   */
   checkCollisionsWithEndboss() {
     if (this.character.isColliding(this.endboss) && this.endboss.dead != 1) {
       this.character.hit();
@@ -145,6 +230,11 @@ class World {
     }
   }
 
+  /**
+   * Checks whether the character collects bottles from the ground.
+   *
+   * @returns {void}
+   */
   checkCollisionsWithBottlesOnGround() {
     if (this.bottleCount < 10) {
       this.level.bottles.forEach((bottle, index) => {
@@ -158,6 +248,11 @@ class World {
     }
   }
 
+  /**
+   * Checks whether the character collects coins.
+   *
+   * @returns {void}
+   */
   checkCollisionsWithCoins() {
     if (this.coinCount < 10) {
       this.level.coins.forEach((coin, index) => {
@@ -171,6 +266,11 @@ class World {
     }
   }
 
+  /**
+   * Checks collisions between flying bottles and the endboss.
+   *
+   * @returns {void}
+   */
   checkCollisionEndbossWithFlyingBottle() {
     if (this.throwableObjects.length > 0) {
       for (let index = 0; index < this.throwableObjects.length; index++) {
@@ -186,6 +286,11 @@ class World {
     }
   }
 
+  /**
+   * Clears and redraws the complete game world on the canvas.
+   *
+   * @returns {void}
+   */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -199,6 +304,11 @@ class World {
     });
   }
 
+  /**
+   * Adds all visible status bars to the canvas.
+   *
+   * @returns {void}
+   */
   addStatusbarsToCanvas() {
     this.addToMap(this.statusBar);
     this.addToMap(this.bottleBar);
@@ -208,11 +318,22 @@ class World {
     }
   }
 
+  /**
+   * Adds the endboss and the character to the canvas.
+   *
+   * @returns {void}
+   */
   addCharacterAndEndbossToCanvas() {
     this.addToMap(this.endboss);
     this.addToMap(this.character);
   }
 
+  /**
+   * Adds all level objects such as backgrounds, clouds,
+   * bottles, enemies, and coins to the canvas.
+   *
+   * @returns {void}
+   */
   addObjectsToCanvas1() {
     this.addMultipleObjectsToMap(this.level.backgroundObjects);
     this.addMultipleObjectsToMap(this.level.clouds);
@@ -221,12 +342,24 @@ class World {
     this.addMultipleObjectsToMap(this.level.coins);
   }
 
+  /**
+   * Adds multiple objects to the canvas.
+   *
+   * @param {DrawableObject[]} objects - The objects to draw on the canvas.
+   * @returns {void}
+   */
   addMultipleObjectsToMap(objects) {
     objects.forEach((o) => {
       this.addToMap(o);
     });
   }
 
+  /**
+   * Adds a single object to the canvas and flips it if needed.
+   *
+   * @param {DrawableObject} mo - The object to draw on the canvas.
+   * @returns {void}
+   */
   addToMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
@@ -239,6 +372,12 @@ class World {
     }
   }
 
+  /**
+   * Flips an object horizontally before drawing it.
+   *
+   * @param {DrawableObject} mo - The object to flip.
+   * @returns {void}
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -246,6 +385,12 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Restores an object's original horizontal direction after drawing.
+   *
+   * @param {DrawableObject} mo - The object to flip back.
+   * @returns {void}
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();

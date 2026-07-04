@@ -1,10 +1,51 @@
+/**
+ * Stores the canvas element used to render the game.
+ *
+ * @type {HTMLCanvasElement}
+ */
 let canvas;
+
+/**
+ * Stores the current game world instance.
+ *
+ * @type {World}
+ */
 let world;
+
+/**
+ * Stores the current keyboard input state.
+ *
+ * @type {Keyboard}
+ */
 let keyboard = new Keyboard();
+
+/**
+ * Indicates whether the game is currently muted.
+ *
+ * @type {boolean}
+ */
 let isGameMuted = localStorage.getItem('isGameMuted') === 'true';
+
+/**
+ * Stores the global sound manager instance.
+ *
+ * @type {Sounds}
+ */
 let sounds = new Sounds(isGameMuted);
+
+/**
+ * Indicates whether fullscreen mode is currently active.
+ *
+ * @type {boolean}
+ */
 let fullscreen = false;
 
+/**
+ * Starts the game, initializes controls, updates UI buttons,
+ * creates the level, and initializes the game world.
+ *
+ * @returns {void}
+ */
 function startGame() {
   initTouchDeviceClass();
   document.getElementById('start_img_cont').classList.add('d_none');
@@ -20,6 +61,12 @@ function startGame() {
   init();
 }
 
+/**
+ * Shows the touch control buttons when the device uses touch input
+ * and is displayed in landscape orientation.
+ *
+ * @returns {void}
+ */
 function isDisplayTouchAndLandscape() {
   const isTouchLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 500px)').matches;
   if (isTouchLandscape) {
@@ -29,11 +76,21 @@ function isDisplayTouchAndLandscape() {
   }
 }
 
+/**
+ * Initializes the canvas and creates a new game world.
+ *
+ * @returns {void}
+ */
 function init() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
 }
 
+/**
+ * Initializes all touch control buttons for movement, jumping, and throwing.
+ *
+ * @returns {void}
+ */
 function initTouchControls() {
   bindHoldButton('button_left', 'KEY_LEFT');
   bindHoldButton('button_right', 'KEY_RIGHT');
@@ -41,6 +98,13 @@ function initTouchControls() {
   bindTapButton('button_throw', 'KEY_D');
 }
 
+/**
+ * Binds a touch button that keeps a keyboard key active while it is pressed.
+ *
+ * @param {string} buttonId - The ID of the button element.
+ * @param {string} keyName - The keyboard property that should be updated.
+ * @returns {void}
+ */
 function bindHoldButton(buttonId, keyName) {
   const btn = document.getElementById(buttonId);
   if (!btn) return;
@@ -73,11 +137,19 @@ function bindHoldButton(buttonId, keyName) {
   });
 }
 
+/**
+ * Binds a touch button that activates a keyboard key for a short tap.
+ *
+ * @param {string} buttonId - The ID of the button element.
+ * @param {string} keyName - The keyboard property that should be updated.
+ * @returns {void}
+ */
 function bindTapButton(buttonId, keyName) {
   const btn = document.getElementById(buttonId);
   if (!btn) return;
   if (btn.dataset.touchBound === '1') return;
   btn.dataset.touchBound = '1';
+
   btn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     setKeyboardKey(keyName, true);
@@ -85,11 +157,19 @@ function bindTapButton(buttonId, keyName) {
       setKeyboardKey(keyName, false);
     }, 80);
   });
+
   btn.addEventListener('contextmenu', (e) => {
     e.preventDefault();
   });
 }
 
+/**
+ * Updates a keyboard key state and synchronizes the character walking state.
+ *
+ * @param {string} keyName - The keyboard property that should be updated.
+ * @param {boolean} value - The new key state.
+ * @returns {void}
+ */
 function setKeyboardKey(keyName, value) {
   keyboard[keyName] = value;
   if (world?.character && (keyName === 'KEY_LEFT' || keyName === 'KEY_RIGHT')) {
@@ -115,6 +195,12 @@ window.addEventListener('keyup', (event) => {
   if (event.key === 'ArrowDown') setKeyboardKey('KEY_DOWN', false);
 });
 
+/**
+ * Toggles the global mute state, stores it in local storage,
+ * updates the sound manager, and refreshes the mute button.
+ *
+ * @returns {void}
+ */
 function toggleMute() {
   isGameMuted = !isGameMuted;
   localStorage.setItem('isGameMuted', isGameMuted);
@@ -125,6 +211,11 @@ function toggleMute() {
   document.getElementById('sound_button').blur();
 }
 
+/**
+ * Updates the visual state of the mute button.
+ *
+ * @returns {void}
+ */
 function updateMuteButton() {
   let btn = document.getElementById('sound_button');
   if (isGameMuted) {
@@ -134,6 +225,11 @@ function updateMuteButton() {
   }
 }
 
+/**
+ * Toggles fullscreen mode and updates the fullscreen button.
+ *
+ * @returns {void}
+ */
 function toggleFullscreen() {
   fullscreen = !fullscreen;
   if (fullscreen) {
@@ -145,6 +241,11 @@ function toggleFullscreen() {
   updateFullscreenButton();
 }
 
+/**
+ * Updates the visual state of the fullscreen button.
+ *
+ * @returns {void}
+ */
 function updateFullscreenButton() {
   let btn = document.getElementById('fullscreen_button');
   if (fullscreen) {
@@ -154,6 +255,12 @@ function updateFullscreenButton() {
   }
 }
 
+/**
+ * Opens fullscreen mode for a specific element.
+ *
+ * @param {HTMLElement} element - The element that should be displayed in fullscreen mode.
+ * @returns {void}
+ */
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
@@ -164,6 +271,11 @@ function enterFullscreen(element) {
   }
 }
 
+/**
+ * Exits fullscreen mode if it is active.
+ *
+ * @returns {void}
+ */
 function exitFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
@@ -172,29 +284,55 @@ function exitFullscreen() {
   }
 }
 
+/**
+ * Adds a CSS class to the body when the current device supports touch input.
+ *
+ * @returns {void}
+ */
 function initTouchDeviceClass() {
   if (navigator.maxTouchPoints > 0) {
     document.body.classList.add('is-touch-device');
   }
 }
 
+/**
+ * Ends the game, stops all intervals, displays the correct end screen image,
+ * and shows the end screen controls.
+ *
+ * @param {string} deadPerson - The defeated character type.
+ * @returns {void}
+ */
 function gameOver(deadPerson) {
   stopAllIntervals();
   let end_img = document.getElementById('end_img');
+  let button_main = document.getElementById('button_main');
   if (deadPerson == 'character') {
+    button_main.style.left = '250px';
     end_img.src = 'img/You won, you lost/You lost.png';
   } else {
+    button_main.style.left = '100px';
     end_img.src = 'img/You won, you lost/You won A.png';
   }
+
   let controls = document.getElementById('endscreen');
   controls.classList.remove('d_none');
   controls.classList.add('buttons_active');
 }
 
+/**
+ * Stops all active intervals.
+ *
+ * @returns {void}
+ */
 function stopAllIntervals() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+/**
+ * Restarts the game by hiding the end screen and creating a new game world.
+ *
+ * @returns {void}
+ */
 function restartGame() {
   let controls = document.getElementById('endscreen');
   controls.classList.add('d_none');
@@ -203,6 +341,11 @@ function restartGame() {
   init();
 }
 
+/**
+ * Returns from the end screen to the main start screen.
+ *
+ * @returns {void}
+ */
 function backToMainScreen() {
   document.getElementById('start_img_cont').classList.remove('d_none');
   let controls = document.getElementById('endscreen');

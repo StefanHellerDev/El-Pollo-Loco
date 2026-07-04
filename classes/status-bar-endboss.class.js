@@ -1,3 +1,8 @@
+/**
+ * Represents the endboss status bar and displays the current endboss energy.
+ *
+ * @extends DrawableObject
+ */
 class StatusBarEndboss extends DrawableObject {
   // 595x158; height durch 158, mal 595
   width = 250;
@@ -15,6 +20,11 @@ class StatusBarEndboss extends DrawableObject {
     'img/7_statusbars/2_statusbar_endboss/orange/orange0.png',
   ];
 
+  /**
+   * Creates a new endboss status bar and sets the initial energy value.
+   *
+   * @param {number} startEnergy - The initial energy value of the endboss.
+   */
   constructor(startEnergy) {
     super();
     this.loadImages(this.IMAGES_STATUSBARENDBOSS);
@@ -22,12 +32,23 @@ class StatusBarEndboss extends DrawableObject {
     this.setEndbossBar(startEnergy);
   }
 
+  /**
+   * Updates the endboss status bar based on the current energy value.
+   *
+   * @param {number} percentage - The current energy value of the endboss.
+   * @returns {void}
+   */
   setEndbossBar(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES_STATUSBARENDBOSS[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the correct image index for the current endboss energy.
+   *
+   * @returns {number} The index of the matching endboss status bar image.
+   */
   resolveImageIndex() {
     if (this.percentage >= (this.startEnerg / 10) * 9) {
       return 0;

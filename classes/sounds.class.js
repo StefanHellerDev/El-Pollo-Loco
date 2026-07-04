@@ -1,3 +1,7 @@
+/**
+ * Manages all game sounds, including playback, loops, volume settings,
+ * and mute behavior.
+ */
 class Sounds {
   isMuted = false;
 
@@ -19,6 +23,12 @@ class Sounds {
     theme: new Audio('sounds/El_pollo_Loco_theme.mp3'),
   };
 
+  /**
+   * Creates a new sound manager, configures all sound settings,
+   * applies the initial mute state, and updates the mute button.
+   *
+   * @param {boolean} isGameMuted - Indicates whether the game should start muted.
+   */
   constructor(isGameMuted) {
     this.sounds.walk.loop = true;
     this.sounds.walk.volume = 0.4;
@@ -38,6 +48,12 @@ class Sounds {
     updateMuteButton();
   }
 
+  /**
+   * Plays a sound once from the beginning if sounds are not muted.
+   *
+   * @param {string} name - The name of the sound to play.
+   * @returns {void}
+   */
   play(name) {
     if (this.isMuted) return;
 
@@ -48,6 +64,12 @@ class Sounds {
     sound.play().catch(() => {});
   }
 
+  /**
+   * Starts playing a looping sound if it exists, is paused, and sounds are not muted.
+   *
+   * @param {string} name - The name of the loop sound to start.
+   * @returns {void}
+   */
   startLoop(name) {
     if (this.isMuted) return;
 
@@ -59,6 +81,12 @@ class Sounds {
     });
   }
 
+  /**
+   * Stops a sound and resets it to the beginning.
+   *
+   * @param {string} name - The name of the sound to stop.
+   * @returns {void}
+   */
   stop(name) {
     const sound = this.sounds[name];
     if (!sound) return;
@@ -67,6 +95,11 @@ class Sounds {
     sound.currentTime = 0;
   }
 
+  /**
+   * Stops all sounds and resets them to the beginning.
+   *
+   * @returns {void}
+   */
   stopAll() {
     Object.values(this.sounds).forEach((sound) => {
       sound.pause();
@@ -74,6 +107,11 @@ class Sounds {
     });
   }
 
+  /**
+   * Toggles the global mute state and stops all sounds when muted.
+   *
+   * @returns {void}
+   */
   toggleMute() {
     this.isMuted = !this.isMuted;
 
@@ -82,6 +120,12 @@ class Sounds {
     }
   }
 
+  /**
+   * Sets the mute state for all sounds.
+   *
+   * @param {boolean} status - The mute status to apply to all sounds.
+   * @returns {void}
+   */
   muteAll(status) {
     this.isMuted = status;
     Object.keys(this.sounds).forEach((key) => {

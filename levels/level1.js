@@ -1,5 +1,16 @@
+/**
+ * Stores the current game level instance.
+ *
+ * @type {Level}
+ */
 let level1;
 
+/**
+ * Initializes the first game level with enemies, clouds, background objects,
+ * bottles, and coins.
+ *
+ * @returns {void}
+ */
 function initGame() {
   level1 = new Level(
     [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new ChickenSmall(), new ChickenSmall(), new ChickenSmall(), new ChickenSmall()],

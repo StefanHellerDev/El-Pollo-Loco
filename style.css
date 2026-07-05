@@ -60,7 +60,7 @@ canvas {
 
 .start_button {
   position: absolute;
-  bottom: 25px;
+  top: 56px;
   color: white;
   font-size: 40px;
   text-shadow: 2px 2px 4px black;
@@ -79,6 +79,26 @@ canvas {
   100% {
     opacity: 1;
   }
+}
+
+#information {
+  font-family: 'saddlebag', sans-serif;
+  font-size: 20px;
+  color: black;
+  position: absolute;
+  bottom: 8px;
+  width: 320px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: background-color 0.2s;
 }
 
 #sound_button {
@@ -157,6 +177,14 @@ canvas {
   pointer-events: none;
 }
 
+#touch_buttons_area {
+  display: none;
+}
+
+#touch_buttons_area.buttons_active {
+  display: flex;
+}
+
 .arrow_buttons_area,
 .throw_button_area {
   display: flex;
@@ -184,9 +212,9 @@ canvas {
   -webkit-touch-callout: none;
 }
 
-body.is-touch-device #touch_buttons_area {
+/* body.is-touch-device #touch_buttons_area {
   display: flex;
-}
+} */
 
 #endscreen {
   display: none;
@@ -274,112 +302,162 @@ body.is-touch-device #touch_buttons_area {
 
 /* The overlay (background) */
 .modal-overlay {
-  font-size: 24px;
+  font-size: clamp(16px, 2.5vw, 24px);
   display: none;
   position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 100;
+
+  padding: 16px;
+  box-sizing: border-box;
 }
 
-#information {
-  font-size: 20px;
-  color: black;
-  position: relative;
-  top: 30px;
-  /* left: 250px; */
-  width: 150px;
-  height: 80px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  z-index: 90;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  transition: background-color 0.2s;
-}
-
-/* Show the modal */
+/* Modal sichtbar */
 .modal-overlay.show {
-  display: block;
+  display: grid;
+  place-items: center;
 }
 
-/* The modal box */
+/* Modal Box */
 .modal-box {
   background: #fdc75f;
-  width: 100%;
-  max-width: 740px;
-  height: 100%;
-  max-height: 720px;
-  margin: 100px auto;
-  padding: 20px;
+  width: min(740px, 100%);
+  max-height: calc(100dvh - 32px);
+  padding: clamp(16px, 3vw, 24px);
   border-radius: 10px;
   position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Vertikaler Scrollbalken nur bei Bedarf */
+
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
-.modal-box h2 {
-  padding-top: 50px;
-}
-
-.modal-box svg {
-  height: 40px;
-  width: 40px;
-}
-
-.modal-box td {
-  vertical-align: middle;
-  width: 150px;
-  text-align: center;
-  /* color: white; */
-}
-.left_td {
-  font-size: 20px;
-  color: white;
-}
-
-.modal-box tr {
-  height: 50px;
-}
-
-/* Close button */
+/* Close Button */
 .modal-close {
-  position: absolute;
-  right: 12px;
-  top: 8px;
-  font-size: 24px;
+  position: sticky;
+  top: 0;
+  align-self: flex-end;
+
+  font-size: 28px;
   border: none;
   background: none;
   cursor: pointer;
+  z-index: 2;
 }
 
+/* Headings */
+.modal-box h2 {
+  padding-top: 16px;
+  font-size: clamp(24px, 5vw, 36px);
+  text-align: center;
+}
+
+/* Text */
+.modal-box p,
+.modal-box td {
+  font-size: clamp(16px, 3.5vw, 24px);
+}
+
+/* Table */
+.modal-box table {
+  width: 100%;
+  max-width: 420px;
+  border-collapse: collapse;
+}
+
+.modal-box tr {
+  min-height: 48px;
+}
+
+.right_td {
+  text-align: left;
+}
+.modal-box td {
+  vertical-align: middle;
+  padding: 6px;
+  width: auto;
+}
+
+.left_td {
+  font-size: clamp(16px, 4vw, 20px);
+  color: white;
+  text-align: center;
+}
+
+.modal-box svg {
+  width: clamp(28px, 8vw, 40px);
+  height: clamp(28px, 8vw, 40px);
+}
+
+.black {
+  color: black;
+  vertical-align: top;
+}
+
+/* Imprint */
 .imprint {
-  font-size: 20px;
+  font-size: clamp(14px, 3.5vw, 20px);
   display: flex;
   align-items: center;
   flex-direction: column;
+  text-align: center;
+  word-break: break-word;
 }
 
-@media (hover: none) and (pointer: coarse) {
+.imprint a {
+  word-break: break-all;
+}
+
+@media (max-width: 420px) {
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-box {
+    width: 100%;
+    max-height: calc(100dvh - 16px);
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .modal-box h2 {
+    padding-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .modal-box p {
+    margin: 4px 0;
+    text-align: center;
+  }
+
+  .modal-box table {
+    max-width: 100%;
+  }
+
+  .modal-box td {
+    padding: 4px;
+  }
+
+  .left_td {
+    white-space: nowrap;
+  }
+}
+
+/* @media (hover: none) and (pointer: coarse) {
   #touch_buttons_area {
     display: flex;
   }
-}
+} */
 
-@media (pointer: coarse) {
+/* @media (pointer: coarse) {
   #touch_buttons_area.buttons_active {
-    display: flex !important;
+    display: flex;
   }
-}
+} */
 
 /* @media (orientation: portrait) { */
 @media (orientation: portrait) and (max-width: 900px) {

@@ -43,6 +43,10 @@
     <div id="start_img_cont">
       <img class="start_img" src="./img/9_intro_outro_screens/start/startscreen_1.png">
       <div class="start_button" onclick="startGame()">Start Game!</div>
+      <button id="information">
+        <p>Game info and imprint</p>
+      </button>
+
     </div>
     <button id="sound_button" onclick="toggleMute()">
       <svg fill="#000000" width="30px" height="30px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +64,7 @@
 
     <canvas id="canvas" width="720" height="480"></canvas>
 
-    <div id="touch_buttons_area" class="d_none">
+    <div id="touch_buttons_area" class="touch_buttons_area d_none">
       <div class="arrow_buttons_area">
         <button id="button_left">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,11 +104,6 @@
     </div>
   </div>
 
-  <button id="information">
-    <p>Game info</p>
-    <p>and imprint</p>
-  </button>
-
   <div id="modal" class="modal-overlay">
     <div class="modal-box">
       <button id="closeBtn" class="modal-close">×</button>
@@ -116,7 +115,7 @@
           <td class="left_td"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="white" stroke-width="2" stroke-linecap="round" />
             </svg></td>
-          <td>Left</td>
+          <td class="right_td">Left</td>
         </tr>
         <tr>
           <td class="left_td">
@@ -124,23 +123,23 @@
               <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="white" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            <span>or</span>
+            <span class="black">or</span>
             <svg fill="#FFF" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M21,9a1,1,0,0,0-1,1v3H4V10a1,1,0,0,0-2,0v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V10A1,1,0,0,0,21,9Z" />
             </svg>
           </td>
-          <td>Jump</td>
+          <td class="right_td">Jump</td>
         </tr>
         <tr>
           <td class="left_td"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6 12H18M18 12L13 7M18 12L13 17" stroke="white" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg></td>
-          <td>Right</td>
+          <td class="right_td">Right</td>
         </tr>
         <tr>
           <td class="left_td">D</td>
-          <td>Throw bottle</td>
+          <td class="right_td">Throw bottle</td>
         </tr>
       </table>
       <h2>Imprint</h2>
@@ -156,7 +155,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="no_mobile_portrait">
     <!-- <div class="portrait_content"> -->

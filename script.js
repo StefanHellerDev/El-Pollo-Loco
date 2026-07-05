@@ -40,15 +40,10 @@ let sounds = new Sounds(isGameMuted);
  */
 let fullscreen = false;
 
-/**
- * Starts the game, initializes controls, updates UI buttons,
- * creates the level, and initializes the game world.
- *
- * @returns {void}
- */
 function startGame() {
-  initTouchDeviceClass();
   document.getElementById('start_img_cont').classList.add('d_none');
+  document.getElementById('information').classList.add('d_none');
+
   isGameMuted = localStorage.getItem('isGameMuted') === 'true';
   sounds?.startLoop('theme');
 
@@ -56,34 +51,66 @@ function startGame() {
   updateMuteButton();
   updateFullscreenButton();
 
-  isDisplayTouchAndLandscape();
   initGame();
   init();
+
+  updateTouchControlsVisibility();
 }
 
-/**
- * Shows the touch control buttons when the device uses touch input
- * and is displayed in landscape orientation.
- *
- * @returns {void}
- */
-function isDisplayTouchAndLandscape() {
-  const isTouchLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 500px)').matches;
-  if (isTouchLandscape) {
-    let controls = document.getElementById('touch_buttons_area');
+function restartGame() {
+  const endscreen = document.getElementById('endscreen');
+  endscreen.classList.add('d_none');
+  endscreen.classList.remove('buttons_active');
+
+  initGame();
+  init();
+
+  updateTouchControlsVisibility();
+}
+
+function isMobileTouchDevice() {
+  const hasTouch = navigator.maxTouchPoints > 0;
+  const isPrimaryTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+  const ua = navigator.userAgent || '';
+  const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+
+  // iPadOS kann sich als Mac ausgeben
+  const isIpadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+
+  return hasTouch && (isPrimaryTouch || isMobileUA || isIpadOS);
+}
+
+function updateTouchControlsVisibility() {
+  const controls = document.getElementById('touch_buttons_area');
+  if (!controls) return;
+
+  const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+
+  if (isMobileTouchDevice() && isLandscape) {
     controls.classList.remove('d_none');
     controls.classList.add('buttons_active');
+  } else {
+    controls.classList.add('d_none');
+    controls.classList.remove('buttons_active');
   }
 }
 
+window.addEventListener('resize', updateTouchControlsVisibility);
+window.addEventListener('orientationchange', updateTouchControlsVisibility);
+
 /**
- * Initializes the canvas and creates a new game world.
+ * Initializes the canvas, creates a new game world,
+ * initializes touch controls, and updates their visibility.
  *
  * @returns {void}
  */
 function init() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
+
+  initTouchControls();
+  updateTouchControlsVisibility();
 }
 
 /**
@@ -349,26 +376,13 @@ function stopAllIntervals() {
 }
 
 /**
- * Restarts the game by hiding the end screen and creating a new game world.
- *
- * @returns {void}
- */
-function restartGame() {
-  let controls = document.getElementById('endscreen');
-  controls.classList.add('d_none');
-  controls.classList.remove('buttons_active');
-  isDisplayTouchAndLandscape();
-  initGame();
-  init();
-}
-
-/**
  * Returns from the end screen to the main start screen.
  *
  * @returns {void}
  */
 function backToMainScreen() {
   document.getElementById('start_img_cont').classList.remove('d_none');
+  document.getElementById('information').classList.remove('d_none');
   let controls = document.getElementById('endscreen');
   controls.classList.add('d_none');
   controls.classList.remove('buttons_active');

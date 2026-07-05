@@ -25,6 +25,7 @@ let keyboard = new Keyboard();
  * @type {boolean}
  */
 let isGameMuted = localStorage.getItem('isGameMuted') === 'true';
+console.log('isGameMuted:', isGameMuted);
 
 /**
  * Stores the global sound manager instance.
@@ -45,15 +46,14 @@ function startGame() {
   document.getElementById('information').classList.add('d_none');
 
   isGameMuted = localStorage.getItem('isGameMuted') === 'true';
-  sounds?.startLoop('theme');
+  console.log('isGameMuted:', isGameMuted);
+  // sounds?.startLoop('theme'); //////////////////////////////////////////////////////////////////////////////
 
   initTouchControls();
   updateMuteButton();
   updateFullscreenButton();
-
   initGame();
   init();
-
   updateTouchControlsVisibility();
 }
 
@@ -331,6 +331,7 @@ function initTouchDeviceClass() {
  */
 function gameOver(deadPerson) {
   stopAllIntervals();
+  world.sounds.stopAll();
   let end_img = document.getElementById('end_img');
   let button_main = document.getElementById('button_main');
   if (deadPerson == 'character') {

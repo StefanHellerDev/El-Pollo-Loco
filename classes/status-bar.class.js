@@ -50,7 +50,6 @@ class StatusBar extends DrawableObject {
    * @returns {number} The index of the matching health status bar image.
    */
   resolveImageIndex() {
-    console.log(this.percentage);
     if (this.percentage >= (this.startEnerg / 10) * 8.1) {
       return 0;
     } else if (this.percentage >= (this.startEnerg / 10) * 6.1) {

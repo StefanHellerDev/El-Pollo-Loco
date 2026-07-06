@@ -355,7 +355,8 @@ class World {
   }
 
   /**
-   * Adds a single object to the canvas and flips it if needed.
+   * Adds a single object to the canvas, flips it horizontally if needed,
+   * and draws its image and frame.
    *
    * @param {DrawableObject} mo - The object to draw on the canvas.
    * @returns {void}
@@ -366,6 +367,7 @@ class World {
     }
 
     mo.draw(this.ctx);
+    mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

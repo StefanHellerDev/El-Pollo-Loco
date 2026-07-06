@@ -52,7 +52,7 @@ function startGame() {
   document.getElementById('information').classList.add('d_none');
   isGameMuted = localStorage.getItem('isGameMuted') === 'true';
   console.log('isGameMuted:', isGameMuted);
-  sounds?.startLoop('theme');
+  // sounds?.startLoop('theme');
   initTouchControls();
   updateMuteButton();
   updateFullscreenButton();

@@ -15,7 +15,7 @@ class Character extends MovableObject {
   offset = {
     top: 90,
     left: 10,
-    right: 10,
+    right: 15,
     bottom: 5,
   };
   energy = 2000;

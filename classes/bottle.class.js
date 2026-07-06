@@ -8,6 +8,12 @@ class Bottle extends DrawableObject {
   height = 80;
   width = (this.height / 400) * 400;
   y = 480 - this.height - 50;
+  offset = {
+    top: 10,
+    left: 15,
+    right: 15,
+    bottom: 5,
+  };
 
   /**
    * Creates a new bottle at a random x-position on the ground.

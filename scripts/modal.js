@@ -40,14 +40,24 @@ function closeModal() {
 openBtn.addEventListener('click', openModal);
 closeBtn.addEventListener('click', closeModal);
 
-/* Close when clicking outside the modal box */
+/**
+ * Closes the modal when the user clicks outside the modal content.
+ *
+ * @param {MouseEvent} event - The click event triggered on the modal.
+ * @returns {void}
+ */
 modal.addEventListener('click', function (event) {
   if (event.target === modal) {
     closeModal();
   }
 });
 
-/* Close when pressing Escape */
+/**
+ * Closes the modal when the Escape key is pressed.
+ *
+ * @param {KeyboardEvent} event - The keyboard event triggered on the document.
+ * @returns {void}
+ */
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Escape') {
     closeModal();

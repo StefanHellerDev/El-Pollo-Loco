@@ -41,14 +41,18 @@ let sounds = new Sounds(isGameMuted);
  */
 let fullscreen = false;
 
+/**
+ * Starts the game by hiding the start screen, initializing controls,
+ * creating the level, creating the game world, and updating the UI.
+ *
+ * @returns {void}
+ */
 function startGame() {
   document.getElementById('start_img_cont').classList.add('d_none');
   document.getElementById('information').classList.add('d_none');
-
   isGameMuted = localStorage.getItem('isGameMuted') === 'true';
   console.log('isGameMuted:', isGameMuted);
-  // sounds?.startLoop('theme'); //////////////////////////////////////////////////////////////////////////////
-
+  sounds?.startLoop('theme');
   initTouchControls();
   updateMuteButton();
   updateFullscreenButton();
@@ -57,36 +61,46 @@ function startGame() {
   updateTouchControlsVisibility();
 }
 
+/**
+ * Restarts the game by hiding the end screen,
+ * creating a new level, creating a new game world,
+ * and updating the touch controls.
+ *
+ * @returns {void}
+ */
 function restartGame() {
   const endscreen = document.getElementById('endscreen');
   endscreen.classList.add('d_none');
   endscreen.classList.remove('buttons_active');
-
   initGame();
   init();
-
   updateTouchControlsVisibility();
 }
 
+/**
+ * Checks whether the current device is a mobile touch device.
+ *
+ * @returns {boolean} True if the device is detected as a mobile touch device, otherwise false.
+ */
 function isMobileTouchDevice() {
   const hasTouch = navigator.maxTouchPoints > 0;
   const isPrimaryTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-
   const ua = navigator.userAgent || '';
   const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
-
-  // iPadOS kann sich als Mac ausgeben
   const isIpadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-
   return hasTouch && (isPrimaryTouch || isMobileUA || isIpadOS);
 }
 
+/**
+ * Updates the visibility of the touch controls based on device type
+ * and screen orientation.
+ *
+ * @returns {void}
+ */
 function updateTouchControlsVisibility() {
   const controls = document.getElementById('touch_buttons_area');
   if (!controls) return;
-
   const isLandscape = window.matchMedia('(orientation: landscape)').matches;
-
   if (isMobileTouchDevice() && isLandscape) {
     controls.classList.remove('d_none');
     controls.classList.add('buttons_active');
@@ -108,7 +122,6 @@ window.addEventListener('orientationchange', updateTouchControlsVisibility);
 function init() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard, sounds);
-
   initTouchControls();
   updateTouchControlsVisibility();
 }
@@ -176,7 +189,6 @@ function bindTapButton(buttonId, keyName) {
   if (!btn) return;
   if (btn.dataset.touchBound === '1') return;
   btn.dataset.touchBound = '1';
-
   btn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     setKeyboardKey(keyName, true);
@@ -184,7 +196,6 @@ function bindTapButton(buttonId, keyName) {
       setKeyboardKey(keyName, false);
     }, 80);
   });
-
   btn.addEventListener('contextmenu', (e) => {
     e.preventDefault();
   });

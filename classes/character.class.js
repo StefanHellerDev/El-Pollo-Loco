@@ -20,6 +20,9 @@ class Character extends MovableObject {
   };
   energy = 2000;
   isWalking;
+  isJumpAnimationRunning = false;
+  jumpImageIndex = 0;
+  jumpAnimationSpeed = 120;
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
@@ -106,10 +109,11 @@ class Character extends MovableObject {
     this.movement();
     this.animations();
     this.jumping();
+    this.jumpAnimation();
   }
 
   /**
-   * Handles jumping input and plays jumping or walking animations.
+   * Checks for jump input and starts the jump movement and jump animation.
    *
    * @returns {void}
    */
@@ -119,15 +123,40 @@ class Character extends MovableObject {
         this.idleWait = 0;
         this.world.sounds.stop('sleep');
         this.jump();
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else {
-        if (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
-          this.idleWait = 0;
-          this.world.sounds.stop('sleep');
-          this.playAnimation(this.IMAGES_WALKING);
-        }
+        this.startJumpAnimation();
       }
     }, 1000 / 20);
+  }
+
+  /**
+   * Starts the jump animation from the first jump image.
+   *
+   * @returns {void}
+   */
+  startJumpAnimation() {
+    this.isJumpAnimationRunning = true;
+    this.jumpImageIndex = 0;
+  }
+
+  /**
+   * Plays the jump animation frame by frame until all jump images were shown.
+   *
+   * @returns {void}
+   */
+  jumpAnimation() {
+    this.setStoppableInterval(() => {
+      if (!this.isJumpAnimationRunning) return;
+
+      const path = this.IMAGES_JUMPING[this.jumpImageIndex];
+      this.img = this.imageCache[path];
+
+      this.jumpImageIndex++;
+
+      if (this.jumpImageIndex >= this.IMAGES_JUMPING.length) {
+        this.isJumpAnimationRunning = false;
+        this.jumpImageIndex = 0;
+      }
+    }, this.jumpAnimationSpeed);
   }
 
   /**
@@ -142,12 +171,8 @@ class Character extends MovableObject {
       } else if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
         gameOver('character');
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else {
-        if (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
-          this.playAnimation(this.IMAGES_WALKING);
-        }
+      } else if (!this.isAboveGround() && (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT)) {
+        this.playAnimation(this.IMAGES_WALKING);
       }
     }, 1000 / 20);
   }
@@ -205,12 +230,15 @@ class Character extends MovableObject {
   }
 
   /**
-   * Plays idle animations and switches to long idle animation after waiting.
+   * Plays the idle animation and switches to the long idle animation
+   * after the character has been inactive for a while.
    *
    * @returns {void}
    */
   idleAnimations() {
     setInterval(() => {
+      if (this.isAboveGround() || this.isHurt() || this.isDead() || this.isJumpAnimationRunning) return;
+
       this.playAnimation(this.IMAGES_IDLE);
       this.idleWait++;
 

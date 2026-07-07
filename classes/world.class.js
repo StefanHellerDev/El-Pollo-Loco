@@ -153,20 +153,19 @@ class World {
 
   /**
    * Checks collisions between the character and all enemies.
-   * Handles jumping on enemies and taking damage.
+   * Handles enemy stomping and character damage.
    *
    * @returns {void}
    */
   checkCollisionsWithEnemies() {
     this.level.enemies.forEach((enemy) => {
       if (enemy.isDead()) return;
+
       if (this.jumpedOnChicken(enemy)) {
-        this.character.speedY = 26;
-        enemy.hit();
-        enemy.dead = 1;
-        this.sounds.play('chickenDead');
+        this.stompEnemy(enemy);
         return;
       }
+
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
@@ -175,47 +174,48 @@ class World {
   }
 
   /**
-   * Checks whether the character landed on top of a chicken enemy.
+   * Handles the behavior when the character stomps an enemy.
+   * Repositions the character, applies jump force, damages the enemy,
+   * and plays the enemy death sound.
+   *
+   * @param {MovableObject} enemy - The enemy that was stomped.
+   * @returns {void}
+   */
+  stompEnemy(enemy) {
+    const enemyBox = HitboxUtils.getHitbox(enemy);
+
+    this.character.y = enemyBox.top - this.character.height + this.character.offset.bottom;
+
+    this.character.speedY = 26;
+
+    enemy.hit();
+    enemy.dead = 1;
+
+    this.sounds.play('chickenDead');
+  }
+
+  /**
+   * Checks whether the character lands on top of a chicken enemy while falling.
    *
    * @param {MovableObject} enemy - The enemy to check against.
    * @returns {boolean} True if the character jumped on the enemy, otherwise false.
    */
   jumpedOnChicken(enemy) {
     if (enemy.isDead()) return false;
-    if (!this.character.isColliding(enemy)) return false;
-    if (this.character.speedY >= 0) return false;
-    const characterBottom = this.character.y + this.character.height - this.character.offset.bottom;
-    const characterPreviousBottom = this.character.lastY + this.character.height - this.character.offset.bottom;
-    const enemyTop = enemy.y + enemy.offset.top;
-    const maxLandingDepth = 20;
-    const cameFromAbove = characterPreviousBottom <= enemyTop;
-    const landedOnTop = characterBottom <= enemyTop + maxLandingDepth;
-    return cameFromAbove && landedOnTop;
-  }
+    if (this.character.speedY >= 0) return false; // nur beim Fallen
 
-  /**
-   * Calculates the hitbox boundaries of a game object.
-   *
-   * @param {DrawableObject} obj - The object whose hitbox should be calculated.
-   * @returns {{top: number, bottom: number, left: number, right: number}} The hitbox boundaries.
-   */
-  getHitbox(obj) {
-    return {
-      top: obj.y + obj.offset.top,
-      bottom: obj.y + obj.height - obj.offset.bottom,
-      left: obj.x + obj.offset.left,
-      right: obj.x + obj.width - obj.offset.right,
-    };
-  }
+    const characterBox = HitboxUtils.getHitbox(this.character);
+    const enemyBox = HitboxUtils.getHitbox(enemy);
 
-  /**
-   * Calculates the previous bottom position of an object.
-   *
-   * @param {DrawableObject} obj - The object whose previous bottom position should be calculated.
-   * @returns {number} The previous bottom position of the object.
-   */
-  getPreviousBottom(obj) {
-    return obj.lastY + obj.height - obj.offset.bottom;
+    const previousBottom = HitboxUtils.getPreviousBottom(this.character);
+    const currentBottom = characterBox.bottom;
+
+    const crossedEnemyTop = previousBottom <= enemyBox.top && currentBottom >= enemyBox.top;
+
+    const horizontalOverlap = HitboxUtils.getHorizontalOverlap(characterBox, enemyBox);
+    const minOverlap = Math.min(12, (enemyBox.right - enemyBox.left) * 0.35);
+
+    return crossedEnemyTop && horizontalOverlap >= minOverlap;
   }
 
   /**

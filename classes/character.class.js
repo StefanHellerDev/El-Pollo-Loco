@@ -18,7 +18,7 @@ class Character extends MovableObject {
     right: 15,
     bottom: 5,
   };
-  energy = 2000;
+  energy = 1800;
   isWalking;
   isJumpAnimationRunning = false;
   jumpImageIndex = 0;

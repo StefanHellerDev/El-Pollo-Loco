@@ -113,7 +113,6 @@ class MovableObject extends DrawableObject {
   hit() {
     if (this instanceof Character) {
       this.world?.sounds?.startLoop('hurt');
-      console.log('Energy:', this.energy);
     }
     if (this instanceof Endboss) {
       this.world?.sounds?.startLoop('endbossHurt');

@@ -37,12 +37,11 @@ class Sounds {
     this.sounds.sleep.volume = 0.3;
     this.sounds.chickenDead.volume = 0.2;
     this.sounds.endbossHurt.volume = 0.5;
-    this.sounds.endbossDead.volume = 0.9;
+    this.sounds.endbossDead.volume = 0.7;
     this.sounds.characterDead.volume = 0.9;
     this.sounds.theme.loop = true;
     this.sounds.theme.volume = 0.1;
     this.muteAll(isGameMuted);
-    updateMuteButton();
   }
 
   /**

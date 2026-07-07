@@ -141,12 +141,12 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if the object is currently hurt, otherwise false.
    */
   isHurt() {
-    let timePassed = new Date().getTime() - this.lastHit; // Milliseconds after hit
+    let timePassed = new Date().getTime() - this.lastHit;
 
     if (this instanceof Endboss) {
-      return timePassed < 1000 / 4;
-    } else {
-      return timePassed < 1000;
+      return timePassed < 800;
     }
+
+    return timePassed < 1000;
   }
 }

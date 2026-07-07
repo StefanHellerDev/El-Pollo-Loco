@@ -9,10 +9,15 @@ class Endboss extends MovableObject {
   height = 500;
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;
-  energy = 25; // 5 less per hit
+  energy = 30; // 5 less per hit
   speed = 0.05;
-  lastSpeed;
   displayStatusbarEndboss = false;
+  isAttacking = false;
+  lastSpeed = this.speed;
+  hadFirstContact = false;
+  shouldAttackAfterHurt = false;
+  wasHurtBefore = false;
+  alertAnimationCounter = 0;
 
   IMAGES_WALKING = [
     'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -66,13 +71,12 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 3700;
-    // this.speed = 0.15 + Math.random() * 0.25;
-    this.speed = 0.05;
+    this.speed = 0.15 + Math.random() * 0.25;
     this.animate();
   }
 
   /**
-   * Starts the movement and animation intervals of the endboss.
+   * Starts the movement interval and the endboss state animation interval.
    *
    * @returns {void}
    */
@@ -81,30 +85,143 @@ class Endboss extends MovableObject {
       this.moveLeft();
     }, 1000 / 60);
 
-    this.animations();
+    setInterval(() => {
+      this.playEndbossStateAnimation();
+    }, 1000 / 6);
   }
 
   /**
-   * Plays the correct endboss animation depending on its current state.
+   * Plays the correct endboss animation based on its current state.
    *
    * @returns {void}
    */
-  animations() {
-    setInterval(() => {
-      if (this.isDead()) {
-        this.endbossIsDead();
-      } else if (this.world.endboss.isHurt()) {
-        this.endbossIsAttacking();
-      } else if (this.characterIsCloseToEndboss()) {
-        this.playAnimation(this.IMAGES_ALERT);
-      } else {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
-    }, 1000 / 4);
+  playEndbossStateAnimation() {
+    if (this.handleDeadState()) return;
+    if (this.handleHurtState()) return;
+    if (this.handleAttackAfterHurt()) return;
+    if (this.handleCurrentAttack()) return;
+
+    this.updateFirstContactState();
+
+    if (this.handleAlertState()) return;
+
+    this.playAnimation(this.IMAGES_WALKING);
   }
 
   /**
-   * Handles the death behavior of the endboss and triggers the game-over state.
+   * Handles the endboss death state.
+   *
+   * @returns {boolean} True if the death state was handled, otherwise false.
+   */
+  handleDeadState() {
+    if (!this.isDead()) return false;
+
+    this.endbossIsDead();
+    return true;
+  }
+
+  /**
+   * Handles the endboss hurt state and prepares a counterattack.
+   *
+   * @returns {boolean} True if the hurt state was handled, otherwise false.
+   */
+  handleHurtState() {
+    if (!this.isHurt()) return false;
+
+    this.shouldAttackAfterHurt = true;
+    this.playAnimation(this.IMAGES_HURT);
+    return true;
+  }
+
+  /**
+   * Handles the endboss attack that should start after being hurt.
+   *
+   * @returns {boolean} True if the attack was started, otherwise false.
+   */
+  handleAttackAfterHurt() {
+    if (!this.shouldAttackAfterHurt) return false;
+
+    this.shouldAttackAfterHurt = false;
+    this.endbossIsAttacking();
+    return true;
+  }
+
+  /**
+   * Handles the currently running endboss attack animation.
+   *
+   * @returns {boolean} True if the attack animation was handled, otherwise false.
+   */
+  handleCurrentAttack() {
+    if (!this.isAttacking) return false;
+
+    this.playAnimation(this.IMAGES_ATTACK);
+    return true;
+  }
+
+  /**
+   * Updates the first contact state when the character gets close to the endboss.
+   *
+   * @returns {void}
+   */
+  updateFirstContactState() {
+    if (!this.isCharacterClose() || this.hadFirstContact) return;
+
+    this.displayStatusbarEndboss = true;
+    this.alertAnimationCounter = 0;
+    this.hadFirstContact = true;
+  }
+
+  /**
+   * Plays the alert animation after the first contact with the character.
+   *
+   * @returns {boolean} True if the alert animation was handled, otherwise false.
+   */
+  handleAlertState() {
+    if (!this.hadFirstContact || this.alertAnimationCounter >= 10) return false;
+
+    this.playAnimation(this.IMAGES_ALERT);
+    this.alertAnimationCounter++;
+    return true;
+  }
+
+  /**
+   * Checks whether the character is close enough to activate the endboss.
+   *
+   * @returns {boolean} True if the character is close to the endboss, otherwise false.
+   */
+  isCharacterClose() {
+    return this.x - this.world.character.x < 400;
+  }
+
+  /**
+   * Handles the endboss attack by temporarily increasing its speed
+   * and playing the attack animation.
+   *
+   * @returns {void}
+   */
+  endbossIsAttacking() {
+    if (this.isDead() || this.isHurt()) return;
+
+    if (this.isAttacking) {
+      this.playAnimation(this.IMAGES_ATTACK);
+      return;
+    }
+
+    this.isAttacking = true;
+    this.lastSpeed = this.speed;
+    this.speed = 6;
+
+    setTimeout(() => {
+      this.speed = this.lastSpeed;
+      this.isAttacking = false;
+    }, 450);
+
+    this.playAnimation(this.IMAGES_ATTACK);
+  }
+
+  /**
+   * Handles the endboss death animation, changes its final position,
+   * and triggers the game-over state.
    *
    * @returns {void}
    */
@@ -118,36 +235,5 @@ class Endboss extends MovableObject {
     }, 1000);
 
     gameOver('endboss');
-  }
-
-  /**
-   * Checks whether the character is close enough to activate the endboss alert state.
-   *
-   * @returns {boolean} True if the character is close to the endboss, otherwise false.
-   */
-  characterIsCloseToEndboss() {
-    if (this.world.endboss.x - this.world.character.x < 400) {
-      this.displayStatusbarEndboss = true;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Handles the endboss attack behavior by temporarily increasing its speed
-   * and playing the attack animation.
-   *
-   * @returns {void}
-   */
-  endbossIsAttacking() {
-    this.lastSpeed = this.speed;
-    this.speed = 6;
-    this.playAnimation(this.IMAGES_ATTACK);
-
-    setTimeout(() => {
-      this.speed = this.lastSpeed;
-      this.playAnimation(this.IMAGES_ATTACK);
-    }, 1000 / 4);
   }
 }

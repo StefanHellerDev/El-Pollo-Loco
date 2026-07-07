@@ -278,9 +278,9 @@ class World {
           this.throwableObjects.splice(index, 1);
           this.endboss.hit();
           this.statusBarEndboss.setEndbossBar(this.endboss.energy);
-          if (this.endboss.energy <= 0) {
-            this.sounds.play('endbossDead');
-          }
+          // if (this.endboss.energy <= 0) {
+          //   this.sounds.play('endbossDead');
+          // }
         }
       }
     }

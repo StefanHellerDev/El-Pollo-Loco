@@ -4,22 +4,18 @@
  */
 class Sounds {
   isMuted = false;
-
   sounds = {
     walk: new Audio('sounds/run.mp3'),
-
     jump: new Audio('sounds/jump.mp3'),
     hurt: new Audio('sounds/mixkit-ow-exclamation-of-pain-2204.wav'),
     bottleThrow: new Audio('sounds/mixkit-quick-rope-throw-730.mp3'),
     getBottle: new Audio('sounds/get_bottle.mp3'),
     getCoin: new Audio('sounds/get_coin.mp3'),
     sleep: new Audio('sounds/mixkit-sleep-breathing-1914.wav'),
-
     chickenDead: new Audio('sounds/mixkit-creature-cry-of-hurt-2208.wav'),
-
     endbossHurt: new Audio('sounds/mixkit-aquatic-creature-scream-2203.wav'),
-    endbossDead: new Audio('sounds/mixkit-arcade-space-shooter-dead-notification-272.wav'),
-
+    endbossDead: new Audio('sounds/mixkit-video-game-win-2016.wav'),
+    characterDead: new Audio('sounds/mixkit-arcade-space-shooter-dead-notification-272.wav'),
     theme: new Audio('sounds/El_pollo_Loco_theme.mp3'),
   };
 
@@ -42,6 +38,7 @@ class Sounds {
     this.sounds.chickenDead.volume = 0.2;
     this.sounds.endbossHurt.volume = 0.5;
     this.sounds.endbossDead.volume = 0.9;
+    this.sounds.characterDead.volume = 0.9;
     this.sounds.theme.loop = true;
     this.sounds.theme.volume = 0.1;
     this.muteAll(isGameMuted);

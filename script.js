@@ -342,18 +342,34 @@ function initTouchDeviceClass() {
  */
 function gameOver(deadPerson) {
   stopAllIntervals();
-  world.sounds.stopAll();
   let end_img = document.getElementById('end_img');
   let button_main = document.getElementById('button_main');
   if (deadPerson == 'character') {
-    button_main.style.left = '250px';
-    end_img.src = 'img/You won, you lost/You lost.png';
-  } else {
-    button_main.style.left = '100px';
-    end_img.src = 'img/You won, you lost/You won A.png';
+    displayEndScreenWhenDead('250px', 'img/You won, you lost/You lost.png', 'characterDead', button_main, end_img);
+  } else {    
+    displayEndScreenWhenDead('100px', 'img/You won, you lost/You won A.png', 'endbossDead', button_main, end_img);
   }
   hideTouchButton();
   showEndscreen();
+  setTimeout(() => {
+    world.sounds.stopAll();
+  }, 1000 * 2);
+}
+
+/**
+ * Configures and displays the end screen after a character or enemy dies.
+ *
+ * @param {string} left - The left position value for the main button.
+ * @param {string} src - The image source for the end screen.
+ * @param {string} sounds - The name of the sound to play.
+ * @param {HTMLElement} button_main - The main button element on the end screen.
+ * @param {HTMLImageElement} end_img - The end screen image element.
+ * @returns {void}
+ */
+function displayEndScreenWhenDead(left, src, sounds, button_main, end_img) {
+  button_main.style.left = left;
+  end_img.src = src;
+  world.sounds.play(sounds);
 }
 
 /**

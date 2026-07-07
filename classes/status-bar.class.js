@@ -1,67 +1,77 @@
-/**
- * Represents the character health status bar and displays the current energy value.
- *
- * @extends DrawableObject
- */
+const HEALTH_BAR_IMAGES = [
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
+];
+
+const ENDBOSS_BAR_IMAGES = [
+  'img/7_statusbars/2_statusbar_endboss/orange/orange100.png',
+  'img/7_statusbars/2_statusbar_endboss/orange/orange80.png',
+  'img/7_statusbars/2_statusbar_endboss/orange/orange60.png',
+  'img/7_statusbars/2_statusbar_endboss/orange/orange40.png',
+  'img/7_statusbars/2_statusbar_endboss/orange/orange20.png',
+  'img/7_statusbars/2_statusbar_endboss/orange/orange0.png',
+];
+
 class StatusBar extends DrawableObject {
-  // 595x158; height durch 158, mal 595
   width = 250;
   height = (this.width / 595) * 158;
-  y = -15;
-  x = 10;
-  startEnerg;
+  x;
+  y;
+  startEnergy;
+  percentage;
+  images;
 
-  IMAGES_STATUSBAR = [
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
-  ];
-
-  /**
-   * Creates a new health status bar and sets the initial energy value.
-   *
-   * @param {number} startEnergy - The initial energy value of the character.
-   */
-  constructor(startEnergy) {
+  constructor({ startEnergy, images, x, y }) {
     super();
-    this.loadImages(this.IMAGES_STATUSBAR);
-    this.startEnerg = startEnergy;
+    this.startEnergy = startEnergy;
+    this.images = images;
+    this.x = x;
+    this.y = y;
+
+    this.loadImages(this.images);
     this.setPercentage(startEnergy);
   }
 
-  /**
-   * Updates the health status bar based on the current energy value.
-   *
-   * @param {number} percentage - The current energy value of the character.
-   * @returns {void}
-   */
   setPercentage(percentage) {
     this.percentage = percentage;
-    let path = this.IMAGES_STATUSBAR[this.resolveImageIndex()];
+    const path = this.images[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
-  /**
-   * Resolves the correct image index for the current health value.
-   *
-   * @returns {number} The index of the matching health status bar image.
-   */
   resolveImageIndex() {
-    if (this.percentage >= (this.startEnerg / 10) * 8.1) {
-      return 0;
-    } else if (this.percentage >= (this.startEnerg / 10) * 6.1) {
-      return 1;
-    } else if (this.percentage >= (this.startEnerg / 10) * 4.1) {
-      return 2;
-    } else if (this.percentage >= (this.startEnerg / 10) * 2.1) {
-      return 3;
-    } else if (this.percentage >= (this.startEnerg / 10) * 0.1) {
-      return 4;
-    } else {
-      return 5;
-    }
+    const ratio = this.percentage / this.startEnergy;
+
+    if (ratio >= 0.81) return 0;
+    if (ratio >= 0.61) return 1;
+    if (ratio >= 0.41) return 2;
+    if (ratio >= 0.21) return 3;
+    if (ratio >= 0.001) return 4;
+    return 5;
+  }
+}
+
+class HealthStatusBar extends StatusBar {
+  constructor(startEnergy) {
+    super({
+      startEnergy,
+      images: HEALTH_BAR_IMAGES,
+      x: 10,
+      y: -15,
+    });
+  }
+}
+
+class EndbossStatusBar extends StatusBar {
+  constructor(startEnergy) {
+    super({
+      startEnergy,
+      images: ENDBOSS_BAR_IMAGES,
+      x: 465,
+      y: 20,
+    });
   }
 }

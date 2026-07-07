@@ -4,11 +4,9 @@
  */
 class World {
   character = new Character();
-  statusBar = new StatusBar(this.character.energy);
   bottleBar = new BottleBar();
   coinBar = new CoinBar();
   endboss = new Endboss();
-  statusBarEndboss = new StatusBarEndboss(this.endboss.energy);
   enemies = level1.enemies;
   clouds = level1.clouds;
   bottles = level1.bottles;
@@ -23,6 +21,20 @@ class World {
   bottleCount = 5;
   coinCount = 0;
   timeKeyDpressed = 1781619044044;
+  // statusBar = new StatusBar({
+  //   startEnergy: this.character.energy,
+  //   images: HEALTH_BAR_IMAGES,
+  //   x: 10,
+  //   y: -15,
+  // });
+  // statusBarEndboss = new StatusBar({
+  //   startEnergy: this.endboss.energy,
+  //   images: ENDBOSS_BAR_IMAGES,
+  //   x: 465,
+  //   y: 20,
+  // });
+  statusBar = new HealthStatusBar(this.character.energy);
+  statusBarEndboss = new EndbossStatusBar(this.endboss.energy);
 
   /**
    * Creates a new game world, initializes canvas rendering,
@@ -277,7 +289,7 @@ class World {
         if (this.throwableObjects[index].isColliding(this.endboss)) {
           this.throwableObjects.splice(index, 1);
           this.endboss.hit();
-          this.statusBarEndboss.setEndbossBar(this.endboss.energy);
+          this.statusBarEndboss.setPercentage(this.endboss.energy);
           // if (this.endboss.energy <= 0) {
           //   this.sounds.play('endbossDead');
           // }

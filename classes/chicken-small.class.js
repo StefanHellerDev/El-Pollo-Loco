@@ -8,12 +8,12 @@ class ChickenSmall extends MovableObject {
   height = 40;
   width = (this.height / 210) * 236;
   y = 480 - this.height - 50;
-  // offset = {
-  //   top: 5,
-  //   left: 5,
-  //   right: 5,
-  //   bottom: 5,
-  // };
+  offset = {
+    top: 3,
+    left: 3,
+    right: 3,
+    bottom: 3,
+  };
   energy = 5;
 
   IMAGES_WALKING = [

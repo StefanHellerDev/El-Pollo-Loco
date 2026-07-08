@@ -9,7 +9,7 @@ class Endboss extends MovableObject {
   height = 500;
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;
-  energy = 30; // 5 less per hit
+  energy = 30;
   speed = 0.05;
   displayStatusbarEndboss = false;
   isAttacking = false;
@@ -201,21 +201,17 @@ class Endboss extends MovableObject {
    */
   endbossIsAttacking() {
     if (this.isDead() || this.isHurt()) return;
-
     if (this.isAttacking) {
       this.playAnimation(this.IMAGES_ATTACK);
       return;
     }
-
     this.isAttacking = true;
     this.lastSpeed = this.speed;
     this.speed = 6;
-
     setTimeout(() => {
       this.speed = this.lastSpeed;
       this.isAttacking = false;
     }, 450);
-
     this.playAnimation(this.IMAGES_ATTACK);
   }
 

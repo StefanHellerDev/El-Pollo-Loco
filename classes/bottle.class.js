@@ -10,8 +10,8 @@ class Bottle extends DrawableObject {
   y = 480 - this.height - 50;
   offset = {
     top: 10,
-    left: 15,
-    right: 15,
+    left: 20,
+    right: 20,
     bottom: 5,
   };
 

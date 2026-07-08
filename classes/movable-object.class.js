@@ -75,7 +75,6 @@ class MovableObject extends DrawableObject {
     if (this instanceof ThrowableObject) {
       return true;
     } else {
-      // return this.y < 480 - this.height - 60;
       return this.y < 170;
     }
   }
@@ -141,11 +140,9 @@ class MovableObject extends DrawableObject {
    */
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
-
     if (this instanceof Endboss) {
       return timePassed < 800;
     }
-
     return timePassed < 1000;
   }
 }

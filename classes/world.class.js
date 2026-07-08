@@ -4,8 +4,6 @@
  */
 class World {
   character = new Character();
-  bottleBar = new BottleBar();
-  coinBar = new CoinBar();
   endboss = new Endboss();
   enemies = level1.enemies;
   clouds = level1.clouds;
@@ -21,19 +19,9 @@ class World {
   bottleCount = 5;
   coinCount = 0;
   timeKeyDpressed = 1781619044044;
-  // statusBar = new StatusBar({
-  //   startEnergy: this.character.energy,
-  //   images: HEALTH_BAR_IMAGES,
-  //   x: 10,
-  //   y: -15,
-  // });
-  // statusBarEndboss = new StatusBar({
-  //   startEnergy: this.endboss.energy,
-  //   images: ENDBOSS_BAR_IMAGES,
-  //   x: 465,
-  //   y: 20,
-  // });
   statusBar = new HealthStatusBar(this.character.energy);
+  bottleBar = new BottleBar(this.bottleCount);
+  coinBar = new CoinBar(this.coinCount);
   statusBarEndboss = new EndbossStatusBar(this.endboss.energy);
 
   /**
@@ -195,14 +183,10 @@ class World {
    */
   stompEnemy(enemy) {
     const enemyBox = HitboxUtils.getHitbox(enemy);
-
     this.character.y = enemyBox.top - this.character.height + this.character.offset.bottom;
-
     this.character.speedY = 26;
-
     enemy.hit();
     enemy.dead = 1;
-
     this.sounds.play('chickenDead');
   }
 
@@ -214,19 +198,14 @@ class World {
    */
   jumpedOnChicken(enemy) {
     if (enemy.isDead()) return false;
-    if (this.character.speedY >= 0) return false; // nur beim Fallen
-
+    if (this.character.speedY >= 0) return false;
     const characterBox = HitboxUtils.getHitbox(this.character);
     const enemyBox = HitboxUtils.getHitbox(enemy);
-
     const previousBottom = HitboxUtils.getPreviousBottom(this.character);
     const currentBottom = characterBox.bottom;
-
     const crossedEnemyTop = previousBottom <= enemyBox.top && currentBottom >= enemyBox.top;
-
     const horizontalOverlap = HitboxUtils.getHorizontalOverlap(characterBox, enemyBox);
     const minOverlap = Math.min(12, (enemyBox.right - enemyBox.left) * 0.35);
-
     return crossedEnemyTop && horizontalOverlap >= minOverlap;
   }
 
@@ -290,9 +269,6 @@ class World {
           this.throwableObjects.splice(index, 1);
           this.endboss.hit();
           this.statusBarEndboss.setPercentage(this.endboss.energy);
-          // if (this.endboss.energy <= 0) {
-          //   this.sounds.play('endbossDead');
-          // }
         }
       }
     }

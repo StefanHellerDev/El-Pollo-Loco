@@ -8,14 +8,14 @@ class Character extends MovableObject {
   // 610x1200; height durch 1200, mal 610
   height = 250;
   width = (this.height / 1200) * 610;
-  y = 480 - this.height - 180; // 50
+  y = 480 - this.height - 180;
   world;
   speed = 10;
   idleWait = 0;
   offset = {
     top: 90,
-    left: 10,
-    right: 15,
+    left: 15,
+    right: 25,
     bottom: 5,
   };
   energy = 1800;

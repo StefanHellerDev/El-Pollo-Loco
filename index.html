@@ -95,6 +95,7 @@
     <canvas id="canvas" width="720" height="480"></canvas>
 
     <div id="touch_buttons_area" class="touch_buttons_area d_none">
+
       <div class="arrow_buttons_area">
         <button id="button_left">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,13 +109,8 @@
           </svg>
         </button>
       </div>
+
       <div class="throw_button_area">
-        <button id="button_jump">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="white" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-        </button>
         <button id="button_throw">
           <svg width="35px" height="35px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -123,9 +119,16 @@
             <path d="M10.4571 1.54289L14.4571 5.54289L16 4L12 0L10.4571 1.54289Z" fill="white" />
           </svg>
         </button>
-      </div>
-    </div>
 
+        <button id="button_jump">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
 
     <div id="endscreen">
       <img id="end_img" class="end_img" src="./img/9_intro_outro_screens/game_over/oh no you lost!.png">

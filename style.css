@@ -186,15 +186,40 @@ canvas {
   background: rgba(42, 54, 71, 0.8);
   border: none;
   display: flex;
-  place-items: center;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
 
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#touch_buttons_area button svg,
+#touch_buttons_area button svg * {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#touch_buttons_area button:active {
+  transform: scale(0.94);
+  background: rgba(42, 54, 71, 1);
+}
+
+#touch_buttons_area button:focus {
+  outline: none;
+}
+
+#touch_buttons_area button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
 }
 
 #endscreen {

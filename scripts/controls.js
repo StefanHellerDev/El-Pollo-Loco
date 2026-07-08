@@ -211,8 +211,8 @@ function isMobileTouchDevice() {
 }
 
 /**
- * Updates the visibility of the touch controls based on device type
- * and screen orientation.
+ * Updates the visibility of the touch controls based on the game state
+ * and mobile touch device detection.
  *
  * @returns {void}
  */
@@ -220,8 +220,9 @@ function updateTouchControlsVisibility() {
   const controls = document.getElementById('touch_buttons_area');
   if (!controls) return;
 
-  const isLandscape = window.matchMedia('(orientation: landscape)').matches;
-  toggleTouchControls(controls, isMobileTouchDevice() && isLandscape);
+  const shouldShow = gameStarted && isMobileTouchDevice();
+
+  toggleTouchControls(controls, shouldShow);
 }
 
 /**

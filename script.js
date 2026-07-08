@@ -25,6 +25,7 @@ let keyboard = new Keyboard();
  * @type {boolean}
  */
 let isGameMuted = localStorage.getItem('isGameMuted') === 'true';
+let gameStarted = false;
 
 /**
  * Stores the global sound manager instance.
@@ -47,12 +48,14 @@ let fullscreen = false;
  * @returns {void}
  */
 function startGame() {
+  gameStarted = true;
   hideStartScreen();
   refreshMuteState();
   updateMuteButton();
   updateFullscreenButton();
   initGame();
   init();
+  updateTouchControlsVisibility();
 }
 
 /**

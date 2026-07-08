@@ -18,7 +18,7 @@ class Character extends MovableObject {
     right: 25,
     bottom: 5,
   };
-  energy = 1800;
+  energy = 1600;
   isWalking;
   isJumpAnimationRunning = false;
   jumpImageIndex = 0;
@@ -113,19 +113,28 @@ class Character extends MovableObject {
   }
 
   /**
-   * Checks for jump input and starts the jump movement and jump animation.
+   * Checks for jump input and starts the jump behavior if jumping is allowed.
    *
    * @returns {void}
    */
   jumping() {
     setInterval(() => {
-      if ((this.world.keyboard.KEY_UP || this.world.keyboard.KEY_SPACE) && !this.isAboveGround()) {
-        this.idleWait = 0;
-        this.world.sounds.stop('sleep');
-        this.jump();
-        this.startJumpAnimation();
-      }
+      if (!this.canStartJump()) return;
+
+      this.idleWait = 0;
+      this.world.sounds.stop('sleep');
+      this.jump();
+      this.startJumpAnimation();
     }, 1000 / 20);
+  }
+
+  /**
+   * Checks whether the character can start a jump.
+   *
+   * @returns {boolean} True if jump input is active and the character is allowed to jump, otherwise false.
+   */
+  canStartJump() {
+    return (this.world.keyboard.KEY_UP || this.world.keyboard.KEY_SPACE) && !this.isAboveGround() && !this.isDead();
   }
 
   /**
@@ -139,42 +148,96 @@ class Character extends MovableObject {
   }
 
   /**
-   * Plays the jump animation frame by frame until all jump images were shown.
+   * Plays the jump animation frame by frame while the jump animation is active.
+   * Stops the jump animation when the character dies and pauses it while the character is hurt.
    *
    * @returns {void}
    */
   jumpAnimation() {
     this.setStoppableInterval(() => {
       if (!this.isJumpAnimationRunning) return;
+      if (this.isDead()) return this.cancelJumpAnimation();
+      if (this.isHurt()) return;
 
-      const path = this.IMAGES_JUMPING[this.jumpImageIndex];
-      this.img = this.imageCache[path];
-
-      this.jumpImageIndex++;
-
-      if (this.jumpImageIndex >= this.IMAGES_JUMPING.length) {
-        this.isJumpAnimationRunning = false;
-        this.jumpImageIndex = 0;
-      }
+      this.playNextJumpFrame();
     }, this.jumpAnimationSpeed);
   }
 
   /**
-   * Plays the correct character animation depending on the current state.
+   * Checks whether the jump animation should be blocked by another character state.
+   *
+   * @returns {boolean} True if the character is hurt or dead, otherwise false.
+   */
+  shouldBlockJumpAnimation() {
+    return this.isHurt() || this.isDead();
+  }
+
+  /**
+   * Cancels the current jump animation and resets its image index.
+   *
+   * @returns {void}
+   */
+  cancelJumpAnimation() {
+    this.isJumpAnimationRunning = false;
+    this.jumpImageIndex = 0;
+  }
+
+  /**
+   * Plays the next frame of the jump animation.
+   *
+   * @returns {void}
+   */
+  playNextJumpFrame() {
+    const path = this.IMAGES_JUMPING[this.jumpImageIndex];
+    this.img = this.imageCache[path];
+    this.jumpImageIndex++;
+
+    if (this.jumpImageIndex >= this.IMAGES_JUMPING.length) {
+      this.cancelJumpAnimation();
+    }
+  }
+
+  /**
+   * Plays the correct character animation based on the current character state.
    *
    * @returns {void}
    */
   animations() {
     this.setStoppableInterval(() => {
-      if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-        gameOver('character');
-      } else if (!this.isAboveGround() && (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT)) {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
+      if (this.isDead()) return this.playDeadAnimation();
+      if (this.isHurt()) return this.playHurtAnimation();
+      if (this.shouldPlayWalkAnimation()) this.playAnimation(this.IMAGES_WALKING);
     }, 1000 / 20);
+  }
+
+  /**
+   * Plays the character death animation, cancels the jump animation,
+   * and triggers the game-over state.
+   *
+   * @returns {void}
+   */
+  playDeadAnimation() {
+    this.cancelJumpAnimation();
+    this.playAnimation(this.IMAGES_DEAD);
+    gameOver('character');
+  }
+
+  /**
+   * Plays the character hurt animation.
+   *
+   * @returns {void}
+   */
+  playHurtAnimation() {
+    this.playAnimation(this.IMAGES_HURT);
+  }
+
+  /**
+   * Checks whether the walking animation should be played.
+   *
+   * @returns {boolean} True if the character is on the ground and moving left or right, otherwise false.
+   */
+  shouldPlayWalkAnimation() {
+    return !this.isAboveGround() && (this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT);
   }
 
   /**

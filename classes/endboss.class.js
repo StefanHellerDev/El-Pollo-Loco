@@ -207,11 +207,11 @@ class Endboss extends MovableObject {
     }
     this.isAttacking = true;
     this.lastSpeed = this.speed;
-    this.speed = 6;
+    this.speed = 7;
     setTimeout(() => {
       this.speed = this.lastSpeed;
       this.isAttacking = false;
-    }, 450);
+    }, 500);
     this.playAnimation(this.IMAGES_ATTACK);
   }
 

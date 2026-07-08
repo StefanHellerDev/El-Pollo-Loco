@@ -247,6 +247,13 @@ window.addEventListener('orientationchange', updateTouchControlsVisibility);
  */
 function toggleMute() {
   isGameMuted = !isGameMuted;
+  if (isGameMuted) {
+    document.getElementById('mutedSpeaker')?.classList.remove('d_none');
+    document.getElementById('speaker')?.classList.add('d_none');
+  } else {
+    document.getElementById('mutedSpeaker')?.classList.add('d_none');
+    document.getElementById('speaker')?.classList.remove('d_none');
+  }
   localStorage.setItem('isGameMuted', isGameMuted);
   world?.sounds?.muteAll(isGameMuted);
   updateMuteButton();

@@ -13,9 +13,9 @@ class Character extends MovableObject {
   speed = 10;
   idleWait = 0;
   offset = {
-    top: 90,
-    left: 15,
-    right: 25,
+    top: 100,
+    left: 20,
+    right: 30,
     bottom: 5,
   };
   energy = 1600;

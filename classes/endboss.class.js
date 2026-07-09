@@ -18,6 +18,12 @@ class Endboss extends MovableObject {
   shouldAttackAfterHurt = false;
   wasHurtBefore = false;
   alertAnimationCounter = 0;
+  offset = {
+    top: 90,
+    left: 20,
+    right: 15,
+    bottom: 0,
+  };
 
   IMAGES_WALKING = [
     'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -51,13 +57,6 @@ class Endboss extends MovableObject {
   IMAGES_HURT = ['img/4_enemie_boss_chicken/4_hurt/G21.png', 'img/4_enemie_boss_chicken/4_hurt/G22.png', 'img/4_enemie_boss_chicken/4_hurt/G23.png'];
 
   IMAGES_DEAD = ['img/4_enemie_boss_chicken/5_dead/G24.png', 'img/4_enemie_boss_chicken/5_dead/G25.png', 'img/4_enemie_boss_chicken/5_dead/G26.png'];
-
-  offset = {
-    top: 100,
-    left: 10,
-    right: 5,
-    bottom: 0,
-  };
 
   /**
    * Creates a new endboss, loads all animation images,
@@ -207,7 +206,7 @@ class Endboss extends MovableObject {
     }
     this.isAttacking = true;
     this.lastSpeed = this.speed;
-    this.speed = 7;
+    this.speed = 8;
     setTimeout(() => {
       this.speed = this.lastSpeed;
       this.isAttacking = false;

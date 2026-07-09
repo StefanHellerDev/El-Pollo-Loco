@@ -218,11 +218,12 @@ function isMobileTouchDevice() {
  */
 function updateTouchControlsVisibility() {
   const controls = document.getElementById('touch_buttons_area');
+  const fullscreenButton = document.getElementById('fullscreen_button');
   if (!controls) return;
 
   const shouldShow = gameStarted && isMobileTouchDevice();
 
-  toggleTouchControls(controls, shouldShow);
+  toggleTouchControls(controls, fullscreenButton, shouldShow);
 }
 
 /**
@@ -232,7 +233,8 @@ function updateTouchControlsVisibility() {
  * @param {boolean} shouldShow - Indicates whether the touch controls should be visible.
  * @returns {void}
  */
-function toggleTouchControls(controls, shouldShow) {
+function toggleTouchControls(controls, fullscreenButton, shouldShow) {
+  fullscreenButton.classList.toggle('d_none', shouldShow);
   controls.classList.toggle('d_none', !shouldShow);
   controls.classList.toggle('buttons_active', shouldShow);
 }
@@ -248,13 +250,6 @@ window.addEventListener('orientationchange', updateTouchControlsVisibility);
  */
 function toggleMute() {
   isGameMuted = !isGameMuted;
-  if (isGameMuted) {
-    document.getElementById('mutedSpeaker')?.classList.remove('d_none');
-    document.getElementById('speaker')?.classList.add('d_none');
-  } else {
-    document.getElementById('mutedSpeaker')?.classList.add('d_none');
-    document.getElementById('speaker')?.classList.remove('d_none');
-  }
   localStorage.setItem('isGameMuted', isGameMuted);
   world?.sounds?.muteAll(isGameMuted);
   updateMuteButton();
@@ -269,6 +264,13 @@ function toggleMute() {
 function updateMuteButton() {
   const btn = document.getElementById('sound_button');
   if (btn) btn.style.opacity = isGameMuted ? '1' : '0.4';
+  if (isGameMuted) {
+    document.getElementById('mutedSpeaker')?.classList.remove('d_none');
+    document.getElementById('speaker')?.classList.add('d_none');
+  } else {
+    document.getElementById('mutedSpeaker')?.classList.add('d_none');
+    document.getElementById('speaker')?.classList.remove('d_none');
+  }
 }
 
 /**

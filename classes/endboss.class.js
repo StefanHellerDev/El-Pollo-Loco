@@ -24,6 +24,10 @@ class Endboss extends MovableObject {
     right: 15,
     bottom: 0,
   };
+  isReturning = false;
+  returnTargetX = 0;
+  maxRightX = 3700;
+  returnSpeed = 8;
 
   IMAGES_WALKING = [
     'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -75,18 +79,61 @@ class Endboss extends MovableObject {
   }
 
   /**
-   * Starts the movement interval and the endboss state animation interval.
+   * Starts the endboss movement interval and the state animation interval.
    *
    * @returns {void}
    */
   animate() {
     this.setStoppableInterval(() => {
-      this.moveLeft();
+      this.moveEndboss();
     }, 1000 / 60);
 
     setInterval(() => {
       this.playEndbossStateAnimation();
     }, 1000 / 6);
+  }
+
+  /**
+   * Moves the endboss depending on its current state.
+   * The endboss stops when dead, moves right while returning,
+   * and otherwise moves left.
+   *
+   * @returns {void}
+   */
+  moveEndboss() {
+    if (this.isDead()) return;
+
+    if (this.isReturning) {
+      this.moveBackRight();
+      return;
+    }
+
+    this.moveLeft();
+  }
+
+  /**
+   * Moves the endboss back to the right until it reaches its return target.
+   *
+   * @returns {void}
+   */
+  moveBackRight() {
+    if (this.x >= this.returnTargetX) {
+      this.stopReturning();
+      return;
+    }
+
+    this.x += this.returnSpeed;
+  }
+
+  /**
+   * Stops the returning movement and resets the endboss direction.
+   *
+   * @returns {void}
+   */
+  stopReturning() {
+    this.x = Math.min(this.x, this.returnTargetX);
+    this.isReturning = false;
+    this.otherDirection = false;
   }
 
   /**
@@ -99,12 +146,26 @@ class Endboss extends MovableObject {
     if (this.handleHurtState()) return;
     if (this.handleAttackAfterHurt()) return;
     if (this.handleCurrentAttack()) return;
-
+    if (this.handleReturningState()) return;
     this.updateFirstContactState();
-
     if (this.handleAlertState()) return;
-
+    if (this.isCharacterRightOfEndboss()) {
+      this.endbossIsReturning();
+      return;
+    }
     this.playAnimation(this.IMAGES_WALKING);
+  }
+
+  /**
+   * Handles the endboss returning state animation.
+   *
+   * @returns {boolean} True if the returning state was handled, otherwise false.
+   */
+  handleReturningState() {
+    if (!this.isReturning) return false;
+
+    this.playAnimation(this.IMAGES_ATTACK);
+    return true;
   }
 
   /**
@@ -193,6 +254,15 @@ class Endboss extends MovableObject {
   }
 
   /**
+   * Checks whether the character is positioned to the right of the endboss.
+   *
+   * @returns {boolean} True if the character is more than 50 pixels to the right of the endboss, otherwise false.
+   */
+  isCharacterRightOfEndboss() {
+    return this.x - this.world.character.x < -50;
+  }
+
+  /**
    * Handles the endboss attack by temporarily increasing its speed
    * and playing the attack animation.
    *
@@ -212,6 +282,21 @@ class Endboss extends MovableObject {
       this.isAttacking = false;
     }, 500);
     this.playAnimation(this.IMAGES_ATTACK);
+  }
+
+  /**
+   * Starts the endboss return movement to the right if no blocking state is active.
+   *
+   * @returns {void}
+   */
+  endbossIsReturning() {
+    if (this.isDead() || this.isHurt() || this.isAttacking || this.isReturning) return;
+
+    this.isReturning = true;
+    this.otherDirection = true;
+
+    const returnDistance = 260;
+    this.returnTargetX = Math.min(this.x + returnDistance, this.maxRightX);
   }
 
   /**

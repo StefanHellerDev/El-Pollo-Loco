@@ -92,7 +92,6 @@ class WorldRenderer {
     if (object.otherDirection) this.flipImage(object);
 
     object.draw(this.world.ctx);
-    object.drawFrame(this.world.ctx);
 
     if (object.otherDirection) this.flipImageBack(object);
   }

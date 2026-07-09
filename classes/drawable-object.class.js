@@ -53,43 +53,6 @@ class DrawableObject {
   }
 
   /**
-   * Draws a debug frame around collidable game objects.
-   * Uses different frame colors for player-related and enemy-related objects.
-   *
-   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
-   * @returns {void}
-   */
-  drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Chicken ||
-      this instanceof ChickenSmall ||
-      this instanceof Endboss ||
-      this instanceof ThrowableObject ||
-      this instanceof Bottle ||
-      this instanceof Coin
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = '2';
-
-      if (this instanceof Character || this instanceof Bottle || this instanceof Coin) {
-        ctx.strokeStyle = 'blue';
-      } else {
-        ctx.strokeStyle = 'red';
-      }
-
-      ctx.rect(
-        this.x + this.offset.left,
-        this.y + this.offset.top,
-        this.width - this.offset.left - this.offset.right,
-        this.height - this.offset.top - this.offset.bottom,
-      );
-
-      ctx.stroke();
-    }
-  }
-
-  /**
    * Starts an interval and stores its ID so it can be stopped later.
    *
    * @param {Function} fn - The function that should be executed repeatedly.

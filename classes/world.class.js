@@ -74,7 +74,7 @@ class World {
    * @returns {void}
    */
   checkThrownObjects() {
-    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(400, this.timeKeyDpressed)) {
+    if (this.keyboard.KEY_D && this.bottleCount > 0 && this.timeSinceObjectThrown(1200, this.timeKeyDpressed)) {
       this.stopSleepSound();
       this.sounds.play('bottleThrow');
       this.chooseThrowDirection();

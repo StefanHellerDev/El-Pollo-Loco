@@ -8,7 +8,7 @@ class Character extends MovableObject {
   // 610x1200; height durch 1200, mal 610
   height = 250;
   width = (this.height / 1200) * 610;
-  y = 480 - this.height - 180;
+  y = 100;
   world;
   speed = 10;
   idleWait = 0;
@@ -23,6 +23,7 @@ class Character extends MovableObject {
   isJumpAnimationRunning = false;
   jumpImageIndex = 0;
   jumpAnimationSpeed = 120;
+  groundY = 190;
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',

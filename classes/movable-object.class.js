@@ -49,34 +49,56 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Applies gravity to the object and updates its vertical position.
+   * Applies gravity to the object and updates its vertical position over time.
    *
    * @returns {void}
    */
   applyGravity() {
     setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.lastY = this.y;
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-      } else {
-        this.speedY = 0;
-        this.lastY = this.y;
-      }
-    }, 1000 / 25);
+      this.shouldApplyGravity() ? this.updateVerticalPosition() : this.landOnGround();
+    }, 1000 / 30);
+  }
+
+  /**
+   * Checks whether gravity should affect the object.
+   *
+   * @returns {boolean} True if the object is above the ground or still moving upward, otherwise false.
+   */
+  shouldApplyGravity() {
+    return this.isAboveGround() || this.speedY > 0;
+  }
+
+  /**
+   * Updates the vertical position and vertical speed of the object.
+   *
+   * @returns {void}
+   */
+  updateVerticalPosition() {
+    this.lastY = this.y;
+    this.y -= this.speedY;
+    this.speedY -= this.acceleration;
+  }
+
+  /**
+   * Places the object on the ground and resets its vertical speed.
+   *
+   * @returns {void}
+   */
+  landOnGround() {
+    this.y = this.groundY;
+    this.speedY = 0;
+    this.lastY = this.y;
   }
 
   /**
    * Checks whether the object is above the ground.
+   * Throwable objects are always treated as being above the ground.
    *
    * @returns {boolean} True if the object is above the ground, otherwise false.
    */
   isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      return true;
-    } else {
-      return this.y < 170;
-    }
+    if (this instanceof ThrowableObject) return true;
+    return this.y < this.groundY;
   }
 
   /**

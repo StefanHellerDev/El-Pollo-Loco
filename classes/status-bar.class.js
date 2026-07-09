@@ -106,10 +106,10 @@ class StatusBar extends DrawableObject {
   resolveImageIndex() {
     const ratio = this.value / this.maxValue;
 
-    if (ratio >= 0.81) return 0;
-    if (ratio >= 0.61) return 1;
-    if (ratio >= 0.41) return 2;
-    if (ratio >= 0.21) return 3;
+    if (ratio >= 0.95) return 0;
+    if (ratio >= 0.65) return 1;
+    if (ratio >= 0.45) return 2;
+    if (ratio >= 0.25) return 3;
     if (ratio > 0) return 4;
     return 5;
   }

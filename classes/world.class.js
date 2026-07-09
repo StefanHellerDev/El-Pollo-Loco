@@ -217,6 +217,7 @@ class World {
   checkCollisionsWithEndboss() {
     if (this.character.isColliding(this.endboss) && this.endboss.dead != 1) {
       this.character.hit();
+      this.character.energy -= 5;
       this.statusBar.setPercentage(this.character.energy);
     }
   }
@@ -355,7 +356,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    // mo.drawFrame(this.ctx);
+    mo.drawFrame(this.ctx); // //////////////////////////////////////////////////////////////////////////////
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

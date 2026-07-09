@@ -174,7 +174,6 @@ You can add screenshots here later, for example:
 ![Gameplay](./img/screenshots/gameplay.png)
 ![Endboss Fight](./img/screenshots/endboss-fight.png)
 ```
- -->
 ## Future Improvements
 
 Possible future improvements include:
@@ -186,7 +185,7 @@ Possible future improvements include:
 * Pause menu
 * More sound settings
 * High score system
-* Cleaner separation of game managers and rendering logic
+* Cleaner separation of game managers and rendering logic -->
 
 ## Author
 

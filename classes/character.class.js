@@ -5,7 +5,6 @@
  * @extends MovableObject
  */
 class Character extends MovableObject {
-  // 610x1200; height durch 1200, mal 610
   height = 250;
   width = (this.height / 1200) * 610;
   y = 100;

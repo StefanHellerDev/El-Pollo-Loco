@@ -5,7 +5,6 @@
  * @extends MovableObject
  */
 class Endboss extends MovableObject {
-  // 1045x1217; height durch 1217, mal 1045
   height = 500;
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;

@@ -4,10 +4,9 @@
  * @extends MovableObject
  */
 class ChickenSmall extends MovableObject {
-  // 236x210; height durch 210, mal 236
   height = 40;
   width = (this.height / 210) * 236;
-  y = 480 - this.height - 50; // y = 390
+  y = 480 - this.height - 50;
   offset = {
     top: 3,
     left: 3,

@@ -4,10 +4,9 @@
  * @extends MovableObject
  */
 class Chicken extends MovableObject {
-  // 248x243; height durch 243, mal 248
   height = 60;
-  width = (this.height / 243) * 248; // 61.2
-  y = 480 - this.height - 50; // 370
+  width = (this.height / 243) * 248;
+  y = 480 - this.height - 50;
 
   IMAGES_WALKING = [
     'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',

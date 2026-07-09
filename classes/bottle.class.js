@@ -4,7 +4,6 @@
  * @extends DrawableObject
  */
 class Bottle extends DrawableObject {
-  // 400x400
   height = 80;
   width = (this.height / 400) * 400;
   y = 480 - this.height - 50;

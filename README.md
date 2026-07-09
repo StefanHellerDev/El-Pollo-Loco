@@ -165,7 +165,7 @@ This project was created as a learning project to practice:
 * Responsive browser-based game controls
 * Working with animations and sounds
 
-## Screenshots
+<!-- ## Screenshots
 
 You can add screenshots here later, for example:
 
@@ -174,7 +174,7 @@ You can add screenshots here later, for example:
 ![Gameplay](./img/screenshots/gameplay.png)
 ![Endboss Fight](./img/screenshots/endboss-fight.png)
 ```
-
+ -->
 ## Future Improvements
 
 Possible future improvements include:

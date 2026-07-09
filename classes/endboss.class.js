@@ -10,7 +10,6 @@ class Endboss extends MovableObject {
   width = (this.height / 1217) * 1045;
   y = 480 - this.height - 10;
   energy = 30;
-  speed = 0.05;
   displayStatusbarEndboss = false;
   isAttacking = false;
   lastSpeed = this.speed;
@@ -74,7 +73,9 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 3700;
-    this.speed = 0.15 + Math.random() * 0.25;
+    this.speed = 0.15 + Math.random() * 0.35;
+    console.log('Speed Endboss: ', this.speed);
+    
     this.animate();
   }
 

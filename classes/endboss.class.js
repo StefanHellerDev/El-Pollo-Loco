@@ -74,8 +74,6 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.x = 3700;
     this.speed = 0.15 + Math.random() * 0.35;
-    console.log('Speed Endboss: ', this.speed);
-    
     this.animate();
   }
 
